@@ -1,5 +1,23 @@
 # Managed Expo App Playground
 
+It is recommended that you log in into Expo CLI with the credentials provided in slack (but you shouldn't need it for local development)
+
+To install
+
+```
+yarn
+```
+
+To run
+
+```
+yarn start
+```
+
+This should allow you to run the app both on native device (phone or emulator/simulator) and in web. If the latter does not work, try `yarn web`.
+
+## Features
+
 What's set up in this project:
 
 - iOs AppStore, with TestFlight delivery and automatic publish through github actions
