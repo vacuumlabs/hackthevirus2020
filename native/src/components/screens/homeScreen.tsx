@@ -1,9 +1,10 @@
-import { useNavigation } from '@react-navigation/native'
-import { Avatar, Card, Layout, Text } from '@ui-kitten/components'
 import React from 'react'
-import { Dimensions, ScrollView, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Dimensions, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { ChallengeCard } from '@components/ui/ChallengeCard'
+import { useNavigation } from '@react-navigation/native'
+import { Layout, Text } from '@ui-kitten/components'
 
 const COLORS = {
   orange: '#ffc342',
@@ -15,21 +16,34 @@ const COLORS = {
 
 const CHALLENGES = [
   {
+    id: '1',
     name: 'Call a family member',
     color: COLORS.orange,
     people: ['https://i.pravatar.cc/300', 'https://i.pravatar.cc/300', 'https://i.pravatar.cc/300'],
   },
   {
+    id: '2',
     name: 'Tidy up around you',
     color: COLORS.navy,
     people: ['https://i.pravatar.cc/300', 'https://i.pravatar.cc/300'],
   },
   {
+    id: '3',
     name: 'Call a family member',
     color: COLORS.cyan,
     people: ['https://i.pravatar.cc/300'],
   },
 ]
+
+const CHALLENGES2 = CHALLENGES.map(challenge => {
+  const { people, ...rest } = challenge
+  return { ...rest, color: COLORS.lightbrown }
+})
+
+const CHALLENGES3 = CHALLENGES.map(challenge => {
+  const { people, ...rest } = challenge
+  return rest
+})
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -49,43 +63,12 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {CHALLENGES.map((challenge, index) => (
-              <View style={{ flexDirection: 'column' }} key={index}>
-                <TouchableOpacity>
-                  <Card
-                    appearance="outline"
-                    style={{
-                      backgroundColor: challenge.color,
-                      marginHorizontal: 8,
-                      width: Dimensions.get('window').width / 3,
-                      height: Dimensions.get('window').width / 3,
-                      borderRadius: 16,
-                      justifyContent: 'flex-end',
-                      paddingLeft: 0,
-                    }}
-                  >
-                    <Text category="p1" status="control">
-                      {challenge.name}
-                    </Text>
-                  </Card>
-                </TouchableOpacity>
-                <View
-                  style={{
-                    marginTop: 16,
-                    marginLeft: 32,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  {challenge.people.slice(0, 2).map((avatar, index) => (
-                    <Avatar style={{ marginLeft: -16 }} key={index} source={{ uri: avatar }} />
-                  ))}
-                  {challenge.people.length > 2 && (
-                    <Text category="h6" style={{ marginLeft: 8 }}>{`+${challenge.people.length -
-                      2}`}</Text>
-                  )}
-                </View>
-              </View>
+            {CHALLENGES.map(challenge => (
+              <ChallengeCard
+                challenge={challenge}
+                key={challenge.id}
+                width={Dimensions.get('window').width / 3}
+              />
             ))}
           </ScrollView>
         </SafeAreaView>
@@ -100,22 +83,12 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {CHALLENGES.map((challenge, index) => (
-              <TouchableOpacity key={index}>
-                <Card
-                  appearance="filled"
-                  style={{
-                    backgroundColor: COLORS.lightbrown,
-                    marginHorizontal: 8,
-                    width: Dimensions.get('window').width / 3,
-                    height: Dimensions.get('window').width / 3,
-                    borderRadius: 16,
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Text category="p1">{challenge.name}</Text>
-                </Card>
-              </TouchableOpacity>
+            {CHALLENGES2.map(challenge => (
+              <ChallengeCard
+                challenge={challenge}
+                key={challenge.id}
+                width={Dimensions.get('window').width / 3}
+              />
             ))}
           </ScrollView>
 
@@ -127,24 +100,12 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {CHALLENGES.map((challenge, index) => (
-              <TouchableOpacity key={index}>
-                <Card
-                  appearance="filled"
-                  style={{
-                    backgroundColor: challenge.color,
-                    marginHorizontal: 8,
-                    width: Dimensions.get('window').width / 3,
-                    height: Dimensions.get('window').width / 3,
-                    borderRadius: 16,
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Text category="p1" status="control">
-                    {challenge.name}
-                  </Text>
-                </Card>
-              </TouchableOpacity>
+            {CHALLENGES3.map(challenge => (
+              <ChallengeCard
+                challenge={challenge}
+                key={challenge.id}
+                width={Dimensions.get('window').width / 3}
+              />
             ))}
           </ScrollView>
         </Layout>
