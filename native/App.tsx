@@ -1,14 +1,10 @@
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
-import React, {useState, useEffect} from 'react'
-import {StyleSheet, View} from 'react-native'
-import {client} from './gql'
+import React, { useEffect, useState } from 'react'
 
-import { DetailScreen, HomeScreen } from '@components/screens'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { RootNavigator } from '@components/navigation/RootNavigator'
 
-const Stack = createStackNavigator()
+import { client } from './gql'
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
@@ -34,12 +30,5 @@ export default function App() {
     )
   }
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Detail" component={DetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
+  return <RootNavigator />
 }
