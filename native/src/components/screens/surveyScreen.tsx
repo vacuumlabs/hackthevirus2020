@@ -1,6 +1,6 @@
 import { Layout } from '@ui-kitten/components'
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 //import { uuid } from 'react-native-uuid'
 //import { client } from '../../../gql'
@@ -8,6 +8,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 type SurveyScreenProps = {
   user_id: string
   challenge_id: string
+}
+
+const EMOTIONS_IMAGES = {
+  negative: require('../../../assets/negative.png'),
+  neutral: require('../../../assets/neutral.png'),
+  positive: require('../../../assets/positive.png'),
 }
 
 export const SurveyScreen: React.FC<SurveyScreenProps> = ({
@@ -19,15 +25,24 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
   }
 
   return (
-    <Layout>
-      <Image source={require('../../../assets/tada.png')} />
-      <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity onPress={() => submitSurvey('negative')}>
-          <Image source={require('../../../assets/negative.png')} />
-        </TouchableOpacity>
-        <Image source={require('../../../assets/neutral.png')} />
-        <Image source={require('../../../assets/positive.png')} />
-      </Layout>
+    <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Image
+        source={require('../../../assets/tada.png')}
+        style={{ height: 240, resizeMode: 'contain', marginBottom: 100, marginTop: -160 }}
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          width: '100%',
+        }}
+      >
+        {['negative', 'neutral', 'positive'].map(emotion => (
+          <TouchableOpacity onPress={() => submitSurvey(emotion)} key={emotion}>
+            <Image source={EMOTIONS_IMAGES[emotion]} />
+          </TouchableOpacity>
+        ))}
+      </View>
     </Layout>
   )
 }
