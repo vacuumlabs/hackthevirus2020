@@ -7,7 +7,10 @@ import { light as lightTheme, mapping } from '@eva-design/eva'
 import { ApplicationProvider } from '@ui-kitten/components'
 
 import { default as customMapping } from './custom-mapping.json'
+import { default as appTheme } from './custom-theme.json'
 import { client } from './gql'
+
+const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
@@ -35,7 +38,7 @@ export default function App() {
 
   return (
     // @ts-ignore
-    <ApplicationProvider mapping={mapping} theme={lightTheme} customMapping={customMapping}>
+    <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
       <RootNavigator />
     </ApplicationProvider>
   )

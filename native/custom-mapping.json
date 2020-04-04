@@ -1,5 +1,22 @@
 {
   "strict": {
     "text-font-family": "OpenSans-Regular"
+  },
+  "components": {
+    "Button": {
+      "appearances": {
+        "filled": {
+          "variantGroups": {
+            "size": {
+              "medium": {
+                "borderRadius": 40,
+                "textFontSize": 18,
+                "textLineHeight": 20
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
