@@ -7,11 +7,6 @@ import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
 
 import { useChallengeQuery } from '../../../graphqlSdk'
 
-const challengeTitle = 'Call a family member'
-
-const challengeText =
-  "Surprise a family member who is not expecting a call from you. Find out something that you didn't know about them."
-
 type Props = {
   route: RouteProp<RootNavigatorParamList, 'Detail'>
 }

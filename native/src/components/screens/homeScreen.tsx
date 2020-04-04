@@ -10,7 +10,6 @@ import { useChallengesQuery } from '../../../graphqlSdk'
 
 const COLORS = {
   orange: '#ffc342',
-  lightbrown: '#f5efe3',
   navy: '#0c2945',
   cyan: '#37a2a4',
 }
