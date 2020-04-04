@@ -1,5 +1,7 @@
 # Managed Expo App Playground
 
+## Setup
+
 It is recommended that you log in into Expo CLI with the credentials provided in slack (but you shouldn't need it for local development)
 
 To install
@@ -15,6 +17,15 @@ yarn start
 ```
 
 This should allow you to run the app both on native device (phone or emulator/simulator) and in web. If the latter does not work, try `yarn web`.
+
+## Talking to server though graphql (in a typesafe way)
+
+Reference: https://graphql-code-generator.com/docs/plugins/typescript-graphql-request
+
+1. Write your query / mutation into any `.graphql` file in `/graphql` - if you can't write graphql worry not, just go to [Hasura console](https://bear-with-life-beta-api.herokuapp.com/console) and use the explorer checkboxes to select what you need, afterwards copy the generated query into one of `.graphql` files.
+2. run `yarn generate`
+3. `import {client} from './graphqlSdk'` (edit the path to `graphqlSdk.ts` file accordingly)
+4. use the query/mutation from client object, i.e. `await client.MyQuery()`, if you pass in any variables, pass them in an object as a first argument
 
 ## Features
 

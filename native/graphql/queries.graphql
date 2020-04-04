@@ -1,0 +1,8 @@
+query ExampleQuery {
+  challenge {
+    challenger_id
+    end
+    id
+    start
+  }
+}
