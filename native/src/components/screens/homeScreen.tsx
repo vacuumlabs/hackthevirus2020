@@ -1,10 +1,10 @@
+import { ChallengeCard } from '@components/ui/ChallengeCard'
+import { spacing } from '@components/ui/constants'
+import { useNavigation } from '@react-navigation/native'
+import { Layout, Text } from '@ui-kitten/components'
 import React from 'react'
 import { Dimensions, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-import { ChallengeCard } from '@components/ui/ChallengeCard'
-import { useNavigation } from '@react-navigation/native'
-import { Layout, Text } from '@ui-kitten/components'
 
 const COLORS = {
   orange: '#ffc342',
@@ -55,13 +55,16 @@ export const HomeScreen: React.FC = () => {
     <Layout style={{ flex: 1 }} level="1">
       <Layout level="3">
         <SafeAreaView>
-          <Text category="h3" style={{ marginLeft: 16, marginBottom: 16, marginTop: 32 }}>
+          <Text
+            category="h3"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[6] }}
+          >
             Your challenges
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {CHALLENGES.map(challenge => (
               <ChallengeCard
@@ -75,13 +78,16 @@ export const HomeScreen: React.FC = () => {
       </Layout>
       <ScrollView>
         <Layout level="1">
-          <Text category="h6" style={{ marginLeft: 16, marginBottom: 16, marginTop: 24 }}>
+          <Text
+            category="h6"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+          >
             Find a new challenge
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {CHALLENGES2.map(challenge => (
               <ChallengeCard
@@ -92,13 +98,16 @@ export const HomeScreen: React.FC = () => {
             ))}
           </ScrollView>
 
-          <Text category="h6" style={{ marginLeft: 16, marginBottom: 16, marginTop: 24 }}>
+          <Text
+            category="h6"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+          >
             See your previous challenges
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {CHALLENGES3.map(challenge => (
               <ChallengeCard
