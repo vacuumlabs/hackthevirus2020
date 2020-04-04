@@ -1,8 +1,9 @@
 import {Button, Text} from '@components/ui'
 import {AppLoading} from 'expo'
 import * as Font from 'expo-font'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {StyleSheet, View} from 'react-native'
+import {client} from './gql'
 
 const styles = StyleSheet.create({
   container: {
@@ -15,6 +16,9 @@ const styles = StyleSheet.create({
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
+  useEffect(() => {
+    client.ExampleQuery().then(console.log)
+  })
   return fontsLoaded ? (
     <View style={styles.container}>
       <Text style={{fontWeight: 'bold'}}>Test push</Text>

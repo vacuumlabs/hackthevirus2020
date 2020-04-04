@@ -1,0 +1,11 @@
+schema:
+  - https://bear-with-life-beta-api.herokuapp.com/v1/graphql:
+      headers:
+        x-hasura-admin-secret: VacuumlabsIsTheBest
+documents: 'graphql/**/*.graphql'
+generates:
+  graphqlSdk.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
