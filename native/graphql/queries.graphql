@@ -16,20 +16,20 @@ query Challenge($id: uuid!) {
   }
 }
 
-mutation InsertChallengeCompletition(
-  $completion_id: uuid!
-  $challenge_id: uuid!
-  $user_id: uuid!
-  $timestamp: String!
-  $emotion: String!
+mutation CompleteChallenge(
+  $assignment_id: uuid!
+  $completed_at: timestamptz!
+  $mood: mood_enum!
 ) {
-  insert_challenge_completition(
-    objects: {
-      id: $completion_id
-      challenge_id: $challenge_id
-      user_id: $user_id
-      timestamp: $timestamp
-      emotion: $emotion
+  update_challenge_assignment(
+    where: {
+      id: {
+        _eq: $assignment_id
+      }
+    }
+    _set: {
+      completed_at: $completed_at
+      mood: $mood
     }
   ) {
     affected_rows

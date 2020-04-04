@@ -48,7 +48,27 @@ export type String_Comparison_Exp = {
 
 export type Category = {
    __typename?: 'category';
+  challenges: Array<Challenge>;
+  challenges_aggregate: Challenge_Aggregate;
   value: Scalars['String'];
+};
+
+
+export type CategoryChallengesArgs = {
+  distinct_on?: Maybe<Array<Challenge_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Order_By>>;
+  where?: Maybe<Challenge_Bool_Exp>;
+};
+
+
+export type CategoryChallenges_AggregateArgs = {
+  distinct_on?: Maybe<Array<Challenge_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Order_By>>;
+  where?: Maybe<Challenge_Bool_Exp>;
 };
 
 export type Category_Aggregate = {
@@ -85,6 +105,7 @@ export type Category_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Category_Bool_Exp>>>;
   _not?: Maybe<Category_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Category_Bool_Exp>>>;
+  challenges?: Maybe<Challenge_Bool_Exp>;
   value?: Maybe<String_Comparison_Exp>;
 };
 
@@ -109,6 +130,7 @@ export type Category_Enum_Comparison_Exp = {
 };
 
 export type Category_Insert_Input = {
+  challenges?: Maybe<Challenge_Arr_Rel_Insert_Input>;
   value?: Maybe<Scalars['String']>;
 };
 
@@ -148,6 +170,7 @@ export type Category_On_Conflict = {
 };
 
 export type Category_Order_By = {
+  challenges_aggregate?: Maybe<Challenge_Aggregate_Order_By>;
   value?: Maybe<Order_By>;
 };
 
@@ -166,10 +189,30 @@ export enum Category_Update_Column {
 export type Challenge = {
    __typename?: 'challenge';
   category: Category_Enum;
+  challenge_assignments: Array<Challenge_Assignment>;
+  challenge_assignments_aggregate: Challenge_Assignment_Aggregate;
   description: Scalars['String'];
   id: Scalars['uuid'];
   name: Scalars['String'];
   points: Scalars['Int'];
+};
+
+
+export type ChallengeChallenge_AssignmentsArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type ChallengeChallenge_Assignments_AggregateArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
 };
 
 export type Challenge_Aggregate = {
@@ -218,6 +261,176 @@ export type Challenge_Arr_Rel_Insert_Input = {
   on_conflict?: Maybe<Challenge_On_Conflict>;
 };
 
+export type Challenge_Assignment = {
+   __typename?: 'challenge_assignment';
+  assigned_at: Scalars['timestamptz'];
+  attachment?: Maybe<Scalars['String']>;
+  challenge: Challenge;
+  challenge_id: Scalars['uuid'];
+  completed_at?: Maybe<Scalars['timestamptz']>;
+  id: Scalars['uuid'];
+  mood?: Maybe<Mood_Enum>;
+  note?: Maybe<Scalars['String']>;
+  user: User;
+  user_id: Scalars['uuid'];
+};
+
+export type Challenge_Assignment_Aggregate = {
+   __typename?: 'challenge_assignment_aggregate';
+  aggregate?: Maybe<Challenge_Assignment_Aggregate_Fields>;
+  nodes: Array<Challenge_Assignment>;
+};
+
+export type Challenge_Assignment_Aggregate_Fields = {
+   __typename?: 'challenge_assignment_aggregate_fields';
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Challenge_Assignment_Max_Fields>;
+  min?: Maybe<Challenge_Assignment_Min_Fields>;
+};
+
+
+export type Challenge_Assignment_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type Challenge_Assignment_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Challenge_Assignment_Max_Order_By>;
+  min?: Maybe<Challenge_Assignment_Min_Order_By>;
+};
+
+export type Challenge_Assignment_Arr_Rel_Insert_Input = {
+  data: Array<Challenge_Assignment_Insert_Input>;
+  on_conflict?: Maybe<Challenge_Assignment_On_Conflict>;
+};
+
+export type Challenge_Assignment_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Challenge_Assignment_Bool_Exp>>>;
+  _not?: Maybe<Challenge_Assignment_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Challenge_Assignment_Bool_Exp>>>;
+  assigned_at?: Maybe<Timestamptz_Comparison_Exp>;
+  attachment?: Maybe<String_Comparison_Exp>;
+  challenge?: Maybe<Challenge_Bool_Exp>;
+  challenge_id?: Maybe<Uuid_Comparison_Exp>;
+  completed_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  mood?: Maybe<Mood_Enum_Comparison_Exp>;
+  note?: Maybe<String_Comparison_Exp>;
+  user?: Maybe<User_Bool_Exp>;
+  user_id?: Maybe<Uuid_Comparison_Exp>;
+};
+
+export enum Challenge_Assignment_Constraint {
+  ChallengeCompletitionPkey = 'challenge_completition_pkey'
+}
+
+export type Challenge_Assignment_Insert_Input = {
+  assigned_at?: Maybe<Scalars['timestamptz']>;
+  attachment?: Maybe<Scalars['String']>;
+  challenge?: Maybe<Challenge_Obj_Rel_Insert_Input>;
+  challenge_id?: Maybe<Scalars['uuid']>;
+  completed_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  mood?: Maybe<Mood_Enum>;
+  note?: Maybe<Scalars['String']>;
+  user?: Maybe<User_Obj_Rel_Insert_Input>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+export type Challenge_Assignment_Max_Fields = {
+   __typename?: 'challenge_assignment_max_fields';
+  assigned_at?: Maybe<Scalars['timestamptz']>;
+  attachment?: Maybe<Scalars['String']>;
+  completed_at?: Maybe<Scalars['timestamptz']>;
+  note?: Maybe<Scalars['String']>;
+};
+
+export type Challenge_Assignment_Max_Order_By = {
+  assigned_at?: Maybe<Order_By>;
+  attachment?: Maybe<Order_By>;
+  completed_at?: Maybe<Order_By>;
+  note?: Maybe<Order_By>;
+};
+
+export type Challenge_Assignment_Min_Fields = {
+   __typename?: 'challenge_assignment_min_fields';
+  assigned_at?: Maybe<Scalars['timestamptz']>;
+  attachment?: Maybe<Scalars['String']>;
+  completed_at?: Maybe<Scalars['timestamptz']>;
+  note?: Maybe<Scalars['String']>;
+};
+
+export type Challenge_Assignment_Min_Order_By = {
+  assigned_at?: Maybe<Order_By>;
+  attachment?: Maybe<Order_By>;
+  completed_at?: Maybe<Order_By>;
+  note?: Maybe<Order_By>;
+};
+
+export type Challenge_Assignment_Mutation_Response = {
+   __typename?: 'challenge_assignment_mutation_response';
+  affected_rows: Scalars['Int'];
+  returning: Array<Challenge_Assignment>;
+};
+
+export type Challenge_Assignment_Obj_Rel_Insert_Input = {
+  data: Challenge_Assignment_Insert_Input;
+  on_conflict?: Maybe<Challenge_Assignment_On_Conflict>;
+};
+
+export type Challenge_Assignment_On_Conflict = {
+  constraint: Challenge_Assignment_Constraint;
+  update_columns: Array<Challenge_Assignment_Update_Column>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+export type Challenge_Assignment_Order_By = {
+  assigned_at?: Maybe<Order_By>;
+  attachment?: Maybe<Order_By>;
+  challenge?: Maybe<Challenge_Order_By>;
+  challenge_id?: Maybe<Order_By>;
+  completed_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  mood?: Maybe<Order_By>;
+  note?: Maybe<Order_By>;
+  user?: Maybe<User_Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+export enum Challenge_Assignment_Select_Column {
+  AssignedAt = 'assigned_at',
+  Attachment = 'attachment',
+  ChallengeId = 'challenge_id',
+  CompletedAt = 'completed_at',
+  Id = 'id',
+  Mood = 'mood',
+  Note = 'note',
+  UserId = 'user_id'
+}
+
+export type Challenge_Assignment_Set_Input = {
+  assigned_at?: Maybe<Scalars['timestamptz']>;
+  attachment?: Maybe<Scalars['String']>;
+  challenge_id?: Maybe<Scalars['uuid']>;
+  completed_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  mood?: Maybe<Mood_Enum>;
+  note?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+export enum Challenge_Assignment_Update_Column {
+  AssignedAt = 'assigned_at',
+  Attachment = 'attachment',
+  ChallengeId = 'challenge_id',
+  CompletedAt = 'completed_at',
+  Id = 'id',
+  Mood = 'mood',
+  Note = 'note',
+  UserId = 'user_id'
+}
+
 export type Challenge_Avg_Fields = {
    __typename?: 'challenge_avg_fields';
   points?: Maybe<Scalars['Float']>;
@@ -232,155 +445,12 @@ export type Challenge_Bool_Exp = {
   _not?: Maybe<Challenge_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Challenge_Bool_Exp>>>;
   category?: Maybe<Category_Enum_Comparison_Exp>;
+  challenge_assignments?: Maybe<Challenge_Assignment_Bool_Exp>;
   description?: Maybe<String_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   points?: Maybe<Int_Comparison_Exp>;
 };
-
-export type Challenge_Completition = {
-   __typename?: 'challenge_completition';
-  attachment?: Maybe<Scalars['String']>;
-  challenge_id: Scalars['uuid'];
-  emotion?: Maybe<Scalars['String']>;
-  id: Scalars['uuid'];
-  timestamp: Scalars['timestamptz'];
-  user_id: Scalars['uuid'];
-};
-
-export type Challenge_Completition_Aggregate = {
-   __typename?: 'challenge_completition_aggregate';
-  aggregate?: Maybe<Challenge_Completition_Aggregate_Fields>;
-  nodes: Array<Challenge_Completition>;
-};
-
-export type Challenge_Completition_Aggregate_Fields = {
-   __typename?: 'challenge_completition_aggregate_fields';
-  count?: Maybe<Scalars['Int']>;
-  max?: Maybe<Challenge_Completition_Max_Fields>;
-  min?: Maybe<Challenge_Completition_Min_Fields>;
-};
-
-
-export type Challenge_Completition_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Challenge_Completition_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
-};
-
-export type Challenge_Completition_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Challenge_Completition_Max_Order_By>;
-  min?: Maybe<Challenge_Completition_Min_Order_By>;
-};
-
-export type Challenge_Completition_Arr_Rel_Insert_Input = {
-  data: Array<Challenge_Completition_Insert_Input>;
-  on_conflict?: Maybe<Challenge_Completition_On_Conflict>;
-};
-
-export type Challenge_Completition_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Challenge_Completition_Bool_Exp>>>;
-  _not?: Maybe<Challenge_Completition_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Challenge_Completition_Bool_Exp>>>;
-  attachment?: Maybe<String_Comparison_Exp>;
-  challenge_id?: Maybe<Uuid_Comparison_Exp>;
-  emotion?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  timestamp?: Maybe<Timestamptz_Comparison_Exp>;
-  user_id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-export enum Challenge_Completition_Constraint {
-  ChallengeCompletitionPkey = 'challenge_completition_pkey'
-}
-
-export type Challenge_Completition_Insert_Input = {
-  attachment?: Maybe<Scalars['String']>;
-  challenge_id?: Maybe<Scalars['uuid']>;
-  emotion?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  timestamp?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-export type Challenge_Completition_Max_Fields = {
-   __typename?: 'challenge_completition_max_fields';
-  attachment?: Maybe<Scalars['String']>;
-  emotion?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamptz']>;
-};
-
-export type Challenge_Completition_Max_Order_By = {
-  attachment?: Maybe<Order_By>;
-  emotion?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
-};
-
-export type Challenge_Completition_Min_Fields = {
-   __typename?: 'challenge_completition_min_fields';
-  attachment?: Maybe<Scalars['String']>;
-  emotion?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamptz']>;
-};
-
-export type Challenge_Completition_Min_Order_By = {
-  attachment?: Maybe<Order_By>;
-  emotion?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
-};
-
-export type Challenge_Completition_Mutation_Response = {
-   __typename?: 'challenge_completition_mutation_response';
-  affected_rows: Scalars['Int'];
-  returning: Array<Challenge_Completition>;
-};
-
-export type Challenge_Completition_Obj_Rel_Insert_Input = {
-  data: Challenge_Completition_Insert_Input;
-  on_conflict?: Maybe<Challenge_Completition_On_Conflict>;
-};
-
-export type Challenge_Completition_On_Conflict = {
-  constraint: Challenge_Completition_Constraint;
-  update_columns: Array<Challenge_Completition_Update_Column>;
-  where?: Maybe<Challenge_Completition_Bool_Exp>;
-};
-
-export type Challenge_Completition_Order_By = {
-  attachment?: Maybe<Order_By>;
-  challenge_id?: Maybe<Order_By>;
-  emotion?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
-  user_id?: Maybe<Order_By>;
-};
-
-export enum Challenge_Completition_Select_Column {
-  Attachment = 'attachment',
-  ChallengeId = 'challenge_id',
-  Emotion = 'emotion',
-  Id = 'id',
-  Timestamp = 'timestamp',
-  UserId = 'user_id'
-}
-
-export type Challenge_Completition_Set_Input = {
-  attachment?: Maybe<Scalars['String']>;
-  challenge_id?: Maybe<Scalars['uuid']>;
-  emotion?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  timestamp?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-export enum Challenge_Completition_Update_Column {
-  Attachment = 'attachment',
-  ChallengeId = 'challenge_id',
-  Emotion = 'emotion',
-  Id = 'id',
-  Timestamp = 'timestamp',
-  UserId = 'user_id'
-}
 
 export enum Challenge_Constraint {
   ChallengeTemplatePkey = 'challenge_template_pkey'
@@ -392,6 +462,7 @@ export type Challenge_Inc_Input = {
 
 export type Challenge_Insert_Input = {
   category?: Maybe<Category_Enum>;
+  challenge_assignments?: Maybe<Challenge_Assignment_Arr_Rel_Insert_Input>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
@@ -443,6 +514,7 @@ export type Challenge_On_Conflict = {
 
 export type Challenge_Order_By = {
   category?: Maybe<Order_By>;
+  challenge_assignments_aggregate?: Maybe<Challenge_Assignment_Aggregate_Order_By>;
   description?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -536,104 +608,118 @@ export type Challenge_Variance_Order_By = {
   points?: Maybe<Order_By>;
 };
 
-export type Emotion = {
-   __typename?: 'emotion';
+export type Mood = {
+   __typename?: 'mood';
   value: Scalars['String'];
 };
 
-export type Emotion_Aggregate = {
-   __typename?: 'emotion_aggregate';
-  aggregate?: Maybe<Emotion_Aggregate_Fields>;
-  nodes: Array<Emotion>;
+export type Mood_Aggregate = {
+   __typename?: 'mood_aggregate';
+  aggregate?: Maybe<Mood_Aggregate_Fields>;
+  nodes: Array<Mood>;
 };
 
-export type Emotion_Aggregate_Fields = {
-   __typename?: 'emotion_aggregate_fields';
+export type Mood_Aggregate_Fields = {
+   __typename?: 'mood_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
-  max?: Maybe<Emotion_Max_Fields>;
-  min?: Maybe<Emotion_Min_Fields>;
+  max?: Maybe<Mood_Max_Fields>;
+  min?: Maybe<Mood_Min_Fields>;
 };
 
 
-export type Emotion_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Emotion_Select_Column>>;
+export type Mood_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Mood_Select_Column>>;
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
-export type Emotion_Aggregate_Order_By = {
+export type Mood_Aggregate_Order_By = {
   count?: Maybe<Order_By>;
-  max?: Maybe<Emotion_Max_Order_By>;
-  min?: Maybe<Emotion_Min_Order_By>;
+  max?: Maybe<Mood_Max_Order_By>;
+  min?: Maybe<Mood_Min_Order_By>;
 };
 
-export type Emotion_Arr_Rel_Insert_Input = {
-  data: Array<Emotion_Insert_Input>;
-  on_conflict?: Maybe<Emotion_On_Conflict>;
+export type Mood_Arr_Rel_Insert_Input = {
+  data: Array<Mood_Insert_Input>;
+  on_conflict?: Maybe<Mood_On_Conflict>;
 };
 
-export type Emotion_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Emotion_Bool_Exp>>>;
-  _not?: Maybe<Emotion_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Emotion_Bool_Exp>>>;
+export type Mood_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Mood_Bool_Exp>>>;
+  _not?: Maybe<Mood_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Mood_Bool_Exp>>>;
   value?: Maybe<String_Comparison_Exp>;
 };
 
-export enum Emotion_Constraint {
+export enum Mood_Constraint {
   EmotionPkey = 'emotion_pkey'
 }
 
-export type Emotion_Insert_Input = {
+export enum Mood_Enum {
+  Negative = 'NEGATIVE',
+  Neutral = 'NEUTRAL',
+  Positive = 'POSITIVE'
+}
+
+export type Mood_Enum_Comparison_Exp = {
+  _eq?: Maybe<Mood_Enum>;
+  _in?: Maybe<Array<Mood_Enum>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Mood_Enum>;
+  _nin?: Maybe<Array<Mood_Enum>>;
+};
+
+export type Mood_Insert_Input = {
   value?: Maybe<Scalars['String']>;
 };
 
-export type Emotion_Max_Fields = {
-   __typename?: 'emotion_max_fields';
+export type Mood_Max_Fields = {
+   __typename?: 'mood_max_fields';
   value?: Maybe<Scalars['String']>;
 };
 
-export type Emotion_Max_Order_By = {
+export type Mood_Max_Order_By = {
   value?: Maybe<Order_By>;
 };
 
-export type Emotion_Min_Fields = {
-   __typename?: 'emotion_min_fields';
+export type Mood_Min_Fields = {
+   __typename?: 'mood_min_fields';
   value?: Maybe<Scalars['String']>;
 };
 
-export type Emotion_Min_Order_By = {
+export type Mood_Min_Order_By = {
   value?: Maybe<Order_By>;
 };
 
-export type Emotion_Mutation_Response = {
-   __typename?: 'emotion_mutation_response';
+export type Mood_Mutation_Response = {
+   __typename?: 'mood_mutation_response';
   affected_rows: Scalars['Int'];
-  returning: Array<Emotion>;
+  returning: Array<Mood>;
 };
 
-export type Emotion_Obj_Rel_Insert_Input = {
-  data: Emotion_Insert_Input;
-  on_conflict?: Maybe<Emotion_On_Conflict>;
+export type Mood_Obj_Rel_Insert_Input = {
+  data: Mood_Insert_Input;
+  on_conflict?: Maybe<Mood_On_Conflict>;
 };
 
-export type Emotion_On_Conflict = {
-  constraint: Emotion_Constraint;
-  update_columns: Array<Emotion_Update_Column>;
-  where?: Maybe<Emotion_Bool_Exp>;
+export type Mood_On_Conflict = {
+  constraint: Mood_Constraint;
+  update_columns: Array<Mood_Update_Column>;
+  where?: Maybe<Mood_Bool_Exp>;
 };
 
-export type Emotion_Order_By = {
+export type Mood_Order_By = {
   value?: Maybe<Order_By>;
 };
 
-export enum Emotion_Select_Column {
+export enum Mood_Select_Column {
   Value = 'value'
 }
 
-export type Emotion_Set_Input = {
+export type Mood_Set_Input = {
   value?: Maybe<Scalars['String']>;
 };
 
-export enum Emotion_Update_Column {
+export enum Mood_Update_Column {
   Value = 'value'
 }
 
@@ -641,18 +727,18 @@ export type Mutation_Root = {
    __typename?: 'mutation_root';
   delete_category?: Maybe<Category_Mutation_Response>;
   delete_challenge?: Maybe<Challenge_Mutation_Response>;
-  delete_challenge_completition?: Maybe<Challenge_Completition_Mutation_Response>;
-  delete_emotion?: Maybe<Emotion_Mutation_Response>;
+  delete_challenge_assignment?: Maybe<Challenge_Assignment_Mutation_Response>;
+  delete_mood?: Maybe<Mood_Mutation_Response>;
   delete_user?: Maybe<User_Mutation_Response>;
   insert_category?: Maybe<Category_Mutation_Response>;
   insert_challenge?: Maybe<Challenge_Mutation_Response>;
-  insert_challenge_completition?: Maybe<Challenge_Completition_Mutation_Response>;
-  insert_emotion?: Maybe<Emotion_Mutation_Response>;
+  insert_challenge_assignment?: Maybe<Challenge_Assignment_Mutation_Response>;
+  insert_mood?: Maybe<Mood_Mutation_Response>;
   insert_user?: Maybe<User_Mutation_Response>;
   update_category?: Maybe<Category_Mutation_Response>;
   update_challenge?: Maybe<Challenge_Mutation_Response>;
-  update_challenge_completition?: Maybe<Challenge_Completition_Mutation_Response>;
-  update_emotion?: Maybe<Emotion_Mutation_Response>;
+  update_challenge_assignment?: Maybe<Challenge_Assignment_Mutation_Response>;
+  update_mood?: Maybe<Mood_Mutation_Response>;
   update_user?: Maybe<User_Mutation_Response>;
 };
 
@@ -667,13 +753,13 @@ export type Mutation_RootDelete_ChallengeArgs = {
 };
 
 
-export type Mutation_RootDelete_Challenge_CompletitionArgs = {
-  where: Challenge_Completition_Bool_Exp;
+export type Mutation_RootDelete_Challenge_AssignmentArgs = {
+  where: Challenge_Assignment_Bool_Exp;
 };
 
 
-export type Mutation_RootDelete_EmotionArgs = {
-  where: Emotion_Bool_Exp;
+export type Mutation_RootDelete_MoodArgs = {
+  where: Mood_Bool_Exp;
 };
 
 
@@ -694,15 +780,15 @@ export type Mutation_RootInsert_ChallengeArgs = {
 };
 
 
-export type Mutation_RootInsert_Challenge_CompletitionArgs = {
-  objects: Array<Challenge_Completition_Insert_Input>;
-  on_conflict?: Maybe<Challenge_Completition_On_Conflict>;
+export type Mutation_RootInsert_Challenge_AssignmentArgs = {
+  objects: Array<Challenge_Assignment_Insert_Input>;
+  on_conflict?: Maybe<Challenge_Assignment_On_Conflict>;
 };
 
 
-export type Mutation_RootInsert_EmotionArgs = {
-  objects: Array<Emotion_Insert_Input>;
-  on_conflict?: Maybe<Emotion_On_Conflict>;
+export type Mutation_RootInsert_MoodArgs = {
+  objects: Array<Mood_Insert_Input>;
+  on_conflict?: Maybe<Mood_On_Conflict>;
 };
 
 
@@ -725,15 +811,15 @@ export type Mutation_RootUpdate_ChallengeArgs = {
 };
 
 
-export type Mutation_RootUpdate_Challenge_CompletitionArgs = {
-  _set?: Maybe<Challenge_Completition_Set_Input>;
-  where: Challenge_Completition_Bool_Exp;
+export type Mutation_RootUpdate_Challenge_AssignmentArgs = {
+  _set?: Maybe<Challenge_Assignment_Set_Input>;
+  where: Challenge_Assignment_Bool_Exp;
 };
 
 
-export type Mutation_RootUpdate_EmotionArgs = {
-  _set?: Maybe<Emotion_Set_Input>;
-  where: Emotion_Bool_Exp;
+export type Mutation_RootUpdate_MoodArgs = {
+  _set?: Maybe<Mood_Set_Input>;
+  where: Mood_Bool_Exp;
 };
 
 
@@ -758,13 +844,13 @@ export type Query_Root = {
   category_by_pk?: Maybe<Category>;
   challenge: Array<Challenge>;
   challenge_aggregate: Challenge_Aggregate;
+  challenge_assignment: Array<Challenge_Assignment>;
+  challenge_assignment_aggregate: Challenge_Assignment_Aggregate;
+  challenge_assignment_by_pk?: Maybe<Challenge_Assignment>;
   challenge_by_pk?: Maybe<Challenge>;
-  challenge_completition: Array<Challenge_Completition>;
-  challenge_completition_aggregate: Challenge_Completition_Aggregate;
-  challenge_completition_by_pk?: Maybe<Challenge_Completition>;
-  emotion: Array<Emotion>;
-  emotion_aggregate: Emotion_Aggregate;
-  emotion_by_pk?: Maybe<Emotion>;
+  mood: Array<Mood>;
+  mood_aggregate: Mood_Aggregate;
+  mood_by_pk?: Maybe<Mood>;
   user: Array<User>;
   user_aggregate: User_Aggregate;
   user_by_pk?: Maybe<User>;
@@ -812,53 +898,53 @@ export type Query_RootChallenge_AggregateArgs = {
 };
 
 
+export type Query_RootChallenge_AssignmentArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type Query_RootChallenge_Assignment_AggregateArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type Query_RootChallenge_Assignment_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootChallenge_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
 
-export type Query_RootChallenge_CompletitionArgs = {
-  distinct_on?: Maybe<Array<Challenge_Completition_Select_Column>>;
+export type Query_RootMoodArgs = {
+  distinct_on?: Maybe<Array<Mood_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Challenge_Completition_Order_By>>;
-  where?: Maybe<Challenge_Completition_Bool_Exp>;
+  order_by?: Maybe<Array<Mood_Order_By>>;
+  where?: Maybe<Mood_Bool_Exp>;
 };
 
 
-export type Query_RootChallenge_Completition_AggregateArgs = {
-  distinct_on?: Maybe<Array<Challenge_Completition_Select_Column>>;
+export type Query_RootMood_AggregateArgs = {
+  distinct_on?: Maybe<Array<Mood_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Challenge_Completition_Order_By>>;
-  where?: Maybe<Challenge_Completition_Bool_Exp>;
+  order_by?: Maybe<Array<Mood_Order_By>>;
+  where?: Maybe<Mood_Bool_Exp>;
 };
 
 
-export type Query_RootChallenge_Completition_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Query_RootEmotionArgs = {
-  distinct_on?: Maybe<Array<Emotion_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Emotion_Order_By>>;
-  where?: Maybe<Emotion_Bool_Exp>;
-};
-
-
-export type Query_RootEmotion_AggregateArgs = {
-  distinct_on?: Maybe<Array<Emotion_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Emotion_Order_By>>;
-  where?: Maybe<Emotion_Bool_Exp>;
-};
-
-
-export type Query_RootEmotion_By_PkArgs = {
+export type Query_RootMood_By_PkArgs = {
   value: Scalars['String'];
 };
 
@@ -892,13 +978,13 @@ export type Subscription_Root = {
   category_by_pk?: Maybe<Category>;
   challenge: Array<Challenge>;
   challenge_aggregate: Challenge_Aggregate;
+  challenge_assignment: Array<Challenge_Assignment>;
+  challenge_assignment_aggregate: Challenge_Assignment_Aggregate;
+  challenge_assignment_by_pk?: Maybe<Challenge_Assignment>;
   challenge_by_pk?: Maybe<Challenge>;
-  challenge_completition: Array<Challenge_Completition>;
-  challenge_completition_aggregate: Challenge_Completition_Aggregate;
-  challenge_completition_by_pk?: Maybe<Challenge_Completition>;
-  emotion: Array<Emotion>;
-  emotion_aggregate: Emotion_Aggregate;
-  emotion_by_pk?: Maybe<Emotion>;
+  mood: Array<Mood>;
+  mood_aggregate: Mood_Aggregate;
+  mood_by_pk?: Maybe<Mood>;
   user: Array<User>;
   user_aggregate: User_Aggregate;
   user_by_pk?: Maybe<User>;
@@ -946,53 +1032,53 @@ export type Subscription_RootChallenge_AggregateArgs = {
 };
 
 
+export type Subscription_RootChallenge_AssignmentArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type Subscription_RootChallenge_Assignment_AggregateArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type Subscription_RootChallenge_Assignment_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootChallenge_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
 
-export type Subscription_RootChallenge_CompletitionArgs = {
-  distinct_on?: Maybe<Array<Challenge_Completition_Select_Column>>;
+export type Subscription_RootMoodArgs = {
+  distinct_on?: Maybe<Array<Mood_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Challenge_Completition_Order_By>>;
-  where?: Maybe<Challenge_Completition_Bool_Exp>;
+  order_by?: Maybe<Array<Mood_Order_By>>;
+  where?: Maybe<Mood_Bool_Exp>;
 };
 
 
-export type Subscription_RootChallenge_Completition_AggregateArgs = {
-  distinct_on?: Maybe<Array<Challenge_Completition_Select_Column>>;
+export type Subscription_RootMood_AggregateArgs = {
+  distinct_on?: Maybe<Array<Mood_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Challenge_Completition_Order_By>>;
-  where?: Maybe<Challenge_Completition_Bool_Exp>;
+  order_by?: Maybe<Array<Mood_Order_By>>;
+  where?: Maybe<Mood_Bool_Exp>;
 };
 
 
-export type Subscription_RootChallenge_Completition_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootEmotionArgs = {
-  distinct_on?: Maybe<Array<Emotion_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Emotion_Order_By>>;
-  where?: Maybe<Emotion_Bool_Exp>;
-};
-
-
-export type Subscription_RootEmotion_AggregateArgs = {
-  distinct_on?: Maybe<Array<Emotion_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Emotion_Order_By>>;
-  where?: Maybe<Emotion_Bool_Exp>;
-};
-
-
-export type Subscription_RootEmotion_By_PkArgs = {
+export type Subscription_RootMood_By_PkArgs = {
   value: Scalars['String'];
 };
 
@@ -1035,8 +1121,28 @@ export type Timestamptz_Comparison_Exp = {
 export type User = {
    __typename?: 'user';
   avatar?: Maybe<Scalars['String']>;
+  challenge_completitions: Array<Challenge_Assignment>;
+  challenge_completitions_aggregate: Challenge_Assignment_Aggregate;
   id: Scalars['uuid'];
   name: Scalars['String'];
+};
+
+
+export type UserChallenge_CompletitionsArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
+};
+
+
+export type UserChallenge_Completitions_AggregateArgs = {
+  distinct_on?: Maybe<Array<Challenge_Assignment_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Challenge_Assignment_Order_By>>;
+  where?: Maybe<Challenge_Assignment_Bool_Exp>;
 };
 
 export type User_Aggregate = {
@@ -1074,6 +1180,7 @@ export type User_Bool_Exp = {
   _not?: Maybe<User_Bool_Exp>;
   _or?: Maybe<Array<Maybe<User_Bool_Exp>>>;
   avatar?: Maybe<String_Comparison_Exp>;
+  challenge_completitions?: Maybe<Challenge_Assignment_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
 };
@@ -1084,6 +1191,7 @@ export enum User_Constraint {
 
 export type User_Insert_Input = {
   avatar?: Maybe<Scalars['String']>;
+  challenge_completitions?: Maybe<Challenge_Assignment_Arr_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -1129,6 +1237,7 @@ export type User_On_Conflict = {
 
 export type User_Order_By = {
   avatar?: Maybe<Order_By>;
+  challenge_completitions_aggregate?: Maybe<Challenge_Assignment_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
@@ -1185,6 +1294,21 @@ export type ChallengeQuery = (
   & { challenge_by_pk?: Maybe<(
     { __typename?: 'challenge' }
     & Pick<Challenge, 'id' | 'name' | 'category' | 'description'>
+  )> }
+);
+
+export type CompleteChallengeMutationVariables = {
+  assignment_id: Scalars['uuid'];
+  completed_at: Scalars['timestamptz'];
+  mood: Mood_Enum;
+};
+
+
+export type CompleteChallengeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_challenge_assignment?: Maybe<(
+    { __typename?: 'challenge_assignment_mutation_response' }
+    & Pick<Challenge_Assignment_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -1272,3 +1396,43 @@ export function useChallengeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type ChallengeQueryHookResult = ReturnType<typeof useChallengeQuery>;
 export type ChallengeLazyQueryHookResult = ReturnType<typeof useChallengeLazyQuery>;
 export type ChallengeQueryResult = ApolloReactCommon.QueryResult<ChallengeQuery, ChallengeQueryVariables>;
+export const CompleteChallengeDocument = gql`
+    mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!) {
+  update_challenge_assignment(where: {id: {_eq: $assignment_id}}, _set: {completed_at: $completed_at, mood: $mood}) {
+    affected_rows
+  }
+}
+    `;
+export type CompleteChallengeMutationFn = ApolloReactCommon.MutationFunction<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
+export type CompleteChallengeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>, 'mutation'>;
+
+    export const CompleteChallengeComponent = (props: CompleteChallengeComponentProps) => (
+      <ApolloReactComponents.Mutation<CompleteChallengeMutation, CompleteChallengeMutationVariables> mutation={CompleteChallengeDocument} {...props} />
+    );
+    
+
+/**
+ * __useCompleteChallengeMutation__
+ *
+ * To run a mutation, you first call `useCompleteChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCompleteChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [completeChallengeMutation, { data, loading, error }] = useCompleteChallengeMutation({
+ *   variables: {
+ *      assignment_id: // value for 'assignment_id'
+ *      completed_at: // value for 'completed_at'
+ *      mood: // value for 'mood'
+ *   },
+ * });
+ */
+export function useCompleteChallengeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>) {
+        return ApolloReactHooks.useMutation<CompleteChallengeMutation, CompleteChallengeMutationVariables>(CompleteChallengeDocument, baseOptions);
+      }
+export type CompleteChallengeMutationHookResult = ReturnType<typeof useCompleteChallengeMutation>;
+export type CompleteChallengeMutationResult = ApolloReactCommon.MutationResult<CompleteChallengeMutation>;
+export type CompleteChallengeMutationOptions = ApolloReactCommon.BaseMutationOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>;

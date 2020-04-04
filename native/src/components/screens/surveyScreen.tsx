@@ -1,27 +1,33 @@
-import { Layout } from '@ui-kitten/components'
 import React from 'react'
 import { Image, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-//import { uuid } from 'react-native-uuid'
-//import { client } from '../../../gql'
 
-type SurveyScreenProps = {
-  user_id: string
-  challenge_id: string
+import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { RouteProp } from '@react-navigation/native'
+import { Layout } from '@ui-kitten/components'
+
+import { Mood_Enum as MoodEnum, useCompleteChallengeMutation } from '../../../graphqlSdk'
+
+const MOOD_IMAGES: Record<MoodEnum, any> = {
+  NEGATIVE: require('@assets/negative.png'),
+  NEUTRAL: require('@assets/neutral.png'),
+  POSITIVE: require('@assets/positive.png'),
 }
 
-const EMOTIONS_IMAGES = {
-  negative: require('../../../assets/negative.png'),
-  neutral: require('../../../assets/neutral.png'),
-  positive: require('../../../assets/positive.png'),
+const MOODS = [MoodEnum.Negative, MoodEnum.Neutral, MoodEnum.Positive]
+
+type Props = {
+  route: RouteProp<RootNavigatorParamList, 'CompleteChallenge'>
 }
 
-export const SurveyScreen: React.FC<SurveyScreenProps> = ({
-  user_id = '8003885c-e560-4263-a4e1-171293278a50',
-  challenge_id = '554cab74-0cba-449b-ba1f-f95d108e9843',
-}) => {
-  const submitSurvey = emotion => {
-    //client.InsertChallengeCompletition({uuid.v1(), challenge_id, user_id, new Date().toISOString(), emotion})
+export const SurveyScreen: React.FC<Props> = ({ route }) => {
+  const { id } = route.params
+  const [completeChallenge] = useCompleteChallengeMutation()
+
+  const submitSurvey = (mood: MoodEnum) => {
+    completeChallenge({
+      variables: { mood, completed_at: new Date(), assignment_id: id },
+    })
   }
 
   return (
@@ -37,9 +43,9 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
           width: '100%',
         }}
       >
-        {['negative', 'neutral', 'positive'].map(emotion => (
-          <TouchableOpacity onPress={() => submitSurvey(emotion)} key={emotion}>
-            <Image source={EMOTIONS_IMAGES[emotion]} />
+        {MOODS.map(mood => (
+          <TouchableOpacity onPress={() => submitSurvey(mood)} key={mood}>
+            <Image source={MOOD_IMAGES[mood]} />
           </TouchableOpacity>
         ))}
       </View>

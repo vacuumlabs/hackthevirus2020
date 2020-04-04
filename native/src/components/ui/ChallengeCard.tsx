@@ -1,7 +1,8 @@
-import { useNavigation } from '@react-navigation/native'
-import { Avatar, Card, Text } from '@ui-kitten/components'
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+
+import { useNavigation } from '@react-navigation/native'
+import { Avatar, Card, Text } from '@ui-kitten/components'
 
 interface Challenge {
   id: string
@@ -22,7 +23,7 @@ export const ChallengeCard: React.FC<Props> = ({
   const navigation = useNavigation()
 
   const navigateToChallenge = useCallback(() => {
-    navigation.navigate('Detail', { id })
+    navigation.navigate('ChallengeDetail', { id })
   }, [id, navigation])
   return (
     <View style={{ flexDirection: 'column' }}>
