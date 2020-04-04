@@ -20,15 +20,11 @@ const Stack = createStackNavigator<RootNavigatorParamList>()
 
 export const RootNavigator: React.FC = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="Home" headerMode="none">
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ChallengeDetail" component={DetailScreen} />
-      <Stack.Screen name="Category" component={CategoryScreen} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="CompleteChallenge"
-        component={CompleteChallengeScreen}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 )

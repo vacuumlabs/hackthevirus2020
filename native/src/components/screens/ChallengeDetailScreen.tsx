@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
 import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { Header } from '@components/ui/Header'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
 
@@ -81,11 +82,7 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <Layout style={{ flex: 1 }}>
-      <Layout style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-        <Text category="h3" status="primary" style={{ maxWidth: 200, fontFamily: 'OpenSans-Bold' }}>
-          {name}
-        </Text>
-      </Layout>
+      <Header title={name} />
       <Layout
         style={{
           backgroundColor: theme['color-warning-500'],
