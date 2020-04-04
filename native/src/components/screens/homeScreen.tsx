@@ -3,7 +3,6 @@ import { Dimensions, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { ChallengeCard } from '@components/ui/ChallengeCard'
-import { useNavigation } from '@react-navigation/native'
 import { Layout, Text } from '@ui-kitten/components'
 
 const COLORS = {
@@ -46,11 +45,6 @@ const CHALLENGES3 = CHALLENGES.map(challenge => {
 })
 
 export const HomeScreen: React.FC = () => {
-  const navigation = useNavigation()
-
-  const navigate = () => {
-    navigation.navigate('Detail')
-  }
   return (
     <Layout style={{ flex: 1 }} level="1">
       <Layout level="3">
