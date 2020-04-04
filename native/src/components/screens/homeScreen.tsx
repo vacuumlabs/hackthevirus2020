@@ -1,11 +1,9 @@
-import React from 'react'
-import { Dimensions, ScrollView } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-
 import { ChallengeCard } from '@components/ui/ChallengeCard'
 import { ChallengeCategoryCard } from '@components/ui/ChallengeCategoryCard'
 import { Layout, Text } from '@ui-kitten/components'
-
+import { default as React } from 'react'
+import { Dimensions, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   useAcceptedChallengesQuery,
   useChallengeCategoriesQuery,
