@@ -1,9 +1,15 @@
+import React from 'react'
+
 import { DetailScreen, HomeScreen } from '@components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
 
-const Stack = createStackNavigator()
+export type RootNavigatorParamList = {
+  Home: undefined
+  Detail: { id: string }
+}
+
+const Stack = createStackNavigator<RootNavigatorParamList>()
 
 export const RootNavigator: React.FC = () => (
   <NavigationContainer>

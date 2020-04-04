@@ -1,20 +1,39 @@
 import React from 'react'
 import { View } from 'react-native'
 
+import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { RouteProp } from '@react-navigation/native'
 import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
 
-const challengeTitle = 'Call a family member'
+import { useChallengeQuery } from '../../../graphqlSdk'
 
-const challengeText =
-  "Surprise a family member who is not expecting a call from you. Find out something that you didn't know about them."
+type Props = {
+  route: RouteProp<RootNavigatorParamList, 'Detail'>
+}
 
-export const DetailScreen: React.FC = () => {
+export const DetailScreen: React.FC<Props> = ({ route }) => {
   const theme = useTheme()
+
+  const { id } = route.params
+  const { data, loading, error } = useChallengeQuery({ variables: { id } })
+
+  if (loading) {
+    return <Text>Loading...</Text>
+  }
+
+  if (error || !data || !data.challenge_by_pk) {
+    return <Text>Error!</Text>
+  }
+
+  const {
+    challenge_by_pk: { name, description },
+  } = data
+
   return (
     <Layout style={{ flex: 1 }}>
       <Layout style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
         <Text category="h3" status="primary" style={{ maxWidth: 200, fontFamily: 'OpenSans-Bold' }}>
-          {challengeTitle}
+          {name}
         </Text>
       </Layout>
       <Layout
@@ -27,7 +46,7 @@ export const DetailScreen: React.FC = () => {
         }}
       >
         <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
-          {challengeText}
+          {description}
         </Text>
 
         <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
