@@ -1,12 +1,11 @@
-import { AppLoading } from 'expo'
-import * as Font from 'expo-font'
-import React, { useState } from 'react'
-
 import { ApolloProvider } from '@apollo/react-hooks'
 import { RootNavigator } from '@components/navigation/RootNavigator'
 import { light as lightTheme, mapping } from '@eva-design/eva'
 import { ApplicationProvider } from '@ui-kitten/components'
-
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
+import React, { useState } from 'react'
+import { StatusBar } from 'react-native'
 import { default as customMapping } from './custom-mapping.json'
 import { default as appTheme } from './custom-theme.json'
 import { client } from './gql'
@@ -39,6 +38,7 @@ export default function App() {
       {/* 
       // @ts-ignore */}
       <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
+        <StatusBar barStyle="dark-content" />
         <RootNavigator />
       </ApplicationProvider>
     </ApolloProvider>

@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react'
-import { View } from 'react-native'
-
 import { useNavigation } from '@react-navigation/native'
 import { Card, Text, useTheme } from '@ui-kitten/components'
+import { categoryMapping } from 'helpers'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
 
 interface Props {
   category: string
@@ -31,7 +31,7 @@ export const ChallengeCategoryCard: React.FC<Props> = ({ category, width }) => {
         }}
         onPress={navigateToCategory}
       >
-        <Text category="p1">{category}</Text>
+        <Text category="p1">{categoryMapping[category]}</Text>
       </Card>
     </View>
   )
