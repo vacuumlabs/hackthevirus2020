@@ -16,6 +16,35 @@ query Challenge($id: uuid!) {
   }
 }
 
+query AcceptedChallenges($user_id: uuid!) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {assigned_at: asc}) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+
+query CompletedChallenges($user_id: uuid!) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {completed_at: desc}) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+
+query ChallengeCategories {
+  category {
+    value
+  }
+}
+
+
 mutation CompleteChallenge(
   $assignment_id: uuid!
   $completed_at: timestamptz!

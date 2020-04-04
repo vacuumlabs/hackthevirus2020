@@ -1297,6 +1297,49 @@ export type ChallengeQuery = (
   )> }
 );
 
+export type AcceptedChallengesQueryVariables = {
+  user_id: Scalars['uuid'];
+};
+
+
+export type AcceptedChallengesQuery = (
+  { __typename?: 'query_root' }
+  & { challenge_assignment: Array<(
+    { __typename?: 'challenge_assignment' }
+    & { challenge: (
+      { __typename?: 'challenge' }
+      & Pick<Challenge, 'id' | 'category' | 'description' | 'name'>
+    ) }
+  )> }
+);
+
+export type CompletedChallengesQueryVariables = {
+  user_id: Scalars['uuid'];
+};
+
+
+export type CompletedChallengesQuery = (
+  { __typename?: 'query_root' }
+  & { challenge_assignment: Array<(
+    { __typename?: 'challenge_assignment' }
+    & { challenge: (
+      { __typename?: 'challenge' }
+      & Pick<Challenge, 'id' | 'category' | 'description' | 'name'>
+    ) }
+  )> }
+);
+
+export type ChallengeCategoriesQueryVariables = {};
+
+
+export type ChallengeCategoriesQuery = (
+  { __typename?: 'query_root' }
+  & { category: Array<(
+    { __typename?: 'category' }
+    & Pick<Category, 'value'>
+  )> }
+);
+
 export type CompleteChallengeMutationVariables = {
   assignment_id: Scalars['uuid'];
   completed_at: Scalars['timestamptz'];
@@ -1396,6 +1439,132 @@ export function useChallengeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type ChallengeQueryHookResult = ReturnType<typeof useChallengeQuery>;
 export type ChallengeLazyQueryHookResult = ReturnType<typeof useChallengeLazyQuery>;
 export type ChallengeQueryResult = ApolloReactCommon.QueryResult<ChallengeQuery, ChallengeQueryVariables>;
+export const AcceptedChallengesDocument = gql`
+    query AcceptedChallenges($user_id: uuid!) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {assigned_at: asc}) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+    `;
+export type AcceptedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>, 'query'> & ({ variables: AcceptedChallengesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const AcceptedChallengesComponent = (props: AcceptedChallengesComponentProps) => (
+      <ApolloReactComponents.Query<AcceptedChallengesQuery, AcceptedChallengesQueryVariables> query={AcceptedChallengesDocument} {...props} />
+    );
+    
+
+/**
+ * __useAcceptedChallengesQuery__
+ *
+ * To run a query within a React component, call `useAcceptedChallengesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAcceptedChallengesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAcceptedChallengesQuery({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useAcceptedChallengesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>) {
+        return ApolloReactHooks.useQuery<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>(AcceptedChallengesDocument, baseOptions);
+      }
+export function useAcceptedChallengesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>(AcceptedChallengesDocument, baseOptions);
+        }
+export type AcceptedChallengesQueryHookResult = ReturnType<typeof useAcceptedChallengesQuery>;
+export type AcceptedChallengesLazyQueryHookResult = ReturnType<typeof useAcceptedChallengesLazyQuery>;
+export type AcceptedChallengesQueryResult = ApolloReactCommon.QueryResult<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>;
+export const CompletedChallengesDocument = gql`
+    query CompletedChallenges($user_id: uuid!) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {completed_at: desc}) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+    `;
+export type CompletedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CompletedChallengesQuery, CompletedChallengesQueryVariables>, 'query'> & ({ variables: CompletedChallengesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const CompletedChallengesComponent = (props: CompletedChallengesComponentProps) => (
+      <ApolloReactComponents.Query<CompletedChallengesQuery, CompletedChallengesQueryVariables> query={CompletedChallengesDocument} {...props} />
+    );
+    
+
+/**
+ * __useCompletedChallengesQuery__
+ *
+ * To run a query within a React component, call `useCompletedChallengesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCompletedChallengesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCompletedChallengesQuery({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useCompletedChallengesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<CompletedChallengesQuery, CompletedChallengesQueryVariables>) {
+        return ApolloReactHooks.useQuery<CompletedChallengesQuery, CompletedChallengesQueryVariables>(CompletedChallengesDocument, baseOptions);
+      }
+export function useCompletedChallengesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CompletedChallengesQuery, CompletedChallengesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<CompletedChallengesQuery, CompletedChallengesQueryVariables>(CompletedChallengesDocument, baseOptions);
+        }
+export type CompletedChallengesQueryHookResult = ReturnType<typeof useCompletedChallengesQuery>;
+export type CompletedChallengesLazyQueryHookResult = ReturnType<typeof useCompletedChallengesLazyQuery>;
+export type CompletedChallengesQueryResult = ApolloReactCommon.QueryResult<CompletedChallengesQuery, CompletedChallengesQueryVariables>;
+export const ChallengeCategoriesDocument = gql`
+    query ChallengeCategories {
+  category {
+    value
+  }
+}
+    `;
+export type ChallengeCategoriesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>, 'query'>;
+
+    export const ChallengeCategoriesComponent = (props: ChallengeCategoriesComponentProps) => (
+      <ApolloReactComponents.Query<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables> query={ChallengeCategoriesDocument} {...props} />
+    );
+    
+
+/**
+ * __useChallengeCategoriesQuery__
+ *
+ * To run a query within a React component, call `useChallengeCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChallengeCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChallengeCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useChallengeCategoriesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>(ChallengeCategoriesDocument, baseOptions);
+      }
+export function useChallengeCategoriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>(ChallengeCategoriesDocument, baseOptions);
+        }
+export type ChallengeCategoriesQueryHookResult = ReturnType<typeof useChallengeCategoriesQuery>;
+export type ChallengeCategoriesLazyQueryHookResult = ReturnType<typeof useChallengeCategoriesLazyQuery>;
+export type ChallengeCategoriesQueryResult = ApolloReactCommon.QueryResult<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>;
 export const CompleteChallengeDocument = gql`
     mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!) {
   update_challenge_assignment(where: {id: {_eq: $assignment_id}}, _set: {completed_at: $completed_at, mood: $mood}) {
