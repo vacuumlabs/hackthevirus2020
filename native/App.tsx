@@ -3,7 +3,10 @@ import * as Font from 'expo-font'
 import React, { useEffect, useState } from 'react'
 
 import { RootNavigator } from '@components/navigation/RootNavigator'
+import { light as lightTheme, mapping } from '@eva-design/eva'
+import { ApplicationProvider } from '@ui-kitten/components'
 
+import { default as customMapping } from './custom-mapping.json'
 import { client } from './gql'
 
 export default function App() {
@@ -30,5 +33,10 @@ export default function App() {
     )
   }
 
-  return <RootNavigator />
+  return (
+    // @ts-ignore
+    <ApplicationProvider mapping={mapping} theme={lightTheme} customMapping={customMapping}>
+      <RootNavigator />
+    </ApplicationProvider>
+  )
 }
