@@ -9,9 +9,9 @@ import { Layout } from '@ui-kitten/components'
 import { Mood_Enum as MoodEnum, useCompleteChallengeMutation } from '../../../graphqlSdk'
 
 const MOOD_IMAGES: Record<MoodEnum, any> = {
-  NEGATIVE: require('@assets/negative.png'),
-  NEUTRAL: require('@assets/neutral.png'),
-  POSITIVE: require('@assets/positive.png'),
+  NEGATIVE: require('../../../assets/negative.png'),
+  NEUTRAL: require('../../../assets/neutral.png'),
+  POSITIVE: require('../../../assets/positive.png'),
 }
 
 const MOODS = [MoodEnum.Negative, MoodEnum.Neutral, MoodEnum.Positive]
