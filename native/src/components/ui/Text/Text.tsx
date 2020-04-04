@@ -1,7 +1,7 @@
-import React, {Ref, RefObject} from 'react'
-import {StyleSheet, Text as RNText, TextProps as RNTextProps} from 'react-native'
+import React, { Ref, RefObject } from 'react'
+import { StyleSheet, Text as RNText, TextProps as RNTextProps } from 'react-native'
 
-const FONTS: {[key: string]: {[key: string]: {[key: string]: string}}} = {
+const FONTS: { [key: string]: { [key: string]: { [key: string]: string } } } = {
   opensans: {
     normal: {
       300: 'OpenSans-Light',
@@ -54,7 +54,7 @@ interface TextProps extends RNTextProps {
   children?: string | React.ReactNode[]
 }
 
-const Text: React.FC<TextProps> = ({variant = 'body', innerRef, ...props}) => {
+const Text: React.FC<TextProps> = ({ variant = 'body', innerRef, ...props }) => {
   const activeFontFamily = 'opensans'
   const fontWeight = get(props.style, 'fontWeight', 'normal')
   const fontStyle = get(props.style, 'fontStyle', 'normal')
@@ -67,7 +67,7 @@ const Text: React.FC<TextProps> = ({variant = 'body', innerRef, ...props}) => {
       style={[
         styles[variant],
         props.style,
-        {fontFamily: FONTS[activeFontFamily][fontStyle][fontWeight]},
+        { fontFamily: FONTS[activeFontFamily][fontStyle][fontWeight] },
       ]}
     />
   )
