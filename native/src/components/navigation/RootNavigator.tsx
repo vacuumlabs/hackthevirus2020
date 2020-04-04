@@ -24,7 +24,11 @@ export const RootNavigator: React.FC = () => (
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ChallengeDetail" component={DetailScreen} />
       <Stack.Screen name="Category" component={CategoryScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
+      <Stack.Screen
+        name="CompleteChallenge"
+        component={CompleteChallengeScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 )
