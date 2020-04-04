@@ -12,7 +12,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <Layout>
       <Text>Tessssst push</Text>
-      <Button size="small" children="Hjju!" status="primary" onPress={navigate} />
+      <Button children="Hjju!" status="primary" onPress={navigate} />
     </Layout>
   )
 }
