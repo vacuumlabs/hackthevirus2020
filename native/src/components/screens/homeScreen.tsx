@@ -1,36 +1,45 @@
-import _ from 'lodash'
 import React from 'react'
 import { Dimensions, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { ChallengeCard } from '@components/ui/ChallengeCard'
+import { ChallengeCategoryCard } from '@components/ui/ChallengeCategoryCard'
 import { Layout, Text } from '@ui-kitten/components'
 
-import { useChallengesQuery } from '../../../graphqlSdk'
+import {
+  useAcceptedChallengesQuery,
+  useChallengeCategoriesQuery,
+  useCompletedChallengesQuery,
+} from '../../../graphqlSdk'
 
-const COLORS = {
-  orange: '#ffc342',
-  navy: '#0c2945',
-  cyan: '#37a2a4',
-}
+const userId = '8003885c-e560-4263-a4e1-171293278a50'
 
 export const HomeScreen: React.FC = () => {
-  const { data, loading, error } = useChallengesQuery()
+  const acceptedChallengesQuery = useAcceptedChallengesQuery({ variables: { user_id: userId } })
+  const completedChallengesQuery = useCompletedChallengesQuery({ variables: { user_id: userId } })
+  const categoriesQuery = useChallengeCategoriesQuery()
 
-  if (loading) {
+  if (
+    acceptedChallengesQuery.loading ||
+    completedChallengesQuery.loading ||
+    categoriesQuery.loading
+  ) {
     return <Text>Loading...</Text>
   }
 
-  if (error || !data) {
+  if (
+    acceptedChallengesQuery.error ||
+    completedChallengesQuery.error ||
+    categoriesQuery.error ||
+    !acceptedChallengesQuery.data ||
+    !completedChallengesQuery.data ||
+    !categoriesQuery.data
+  ) {
     return <Text>Error!</Text>
   }
 
-  const { challenge: challenges } = data
-
-  const challengesWithColors = challenges.map(challenge => ({
-    ...challenge,
-    color: _.sample(COLORS),
-  }))
+  const acceptedChallenges = acceptedChallengesQuery.data.challenge_assignment
+  const completedChalleges = completedChallengesQuery.data.challenge_assignment
 
   return (
     <Layout style={{ flex: 1 }} level="1">
@@ -44,10 +53,10 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {challengesWithColors.map(challenge => (
+            {acceptedChallenges.map(challengeAssignment => (
               <ChallengeCard
-                challenge={challenge}
-                key={challenge.id}
+                challenge={challengeAssignment.challenge}
+                key={challengeAssignment.challenge.id}
                 width={Dimensions.get('window').width / 3}
               />
             ))}
@@ -64,10 +73,10 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {challengesWithColors.map(challenge => (
-              <ChallengeCard
-                challenge={challenge}
-                key={challenge.id}
+            {categoriesQuery.data.category.map(category => (
+              <ChallengeCategoryCard
+                category={category.value}
+                key={category.value}
                 width={Dimensions.get('window').width / 3}
               />
             ))}
@@ -81,10 +90,10 @@ export const HomeScreen: React.FC = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8 }}
           >
-            {challengesWithColors.map(challenge => (
+            {completedChalleges.map(challengeAssignment => (
               <ChallengeCard
-                challenge={challenge}
-                key={challenge.id}
+                challenge={challengeAssignment.challenge}
+                key={challengeAssignment.challenge.id}
                 width={Dimensions.get('window').width / 3}
               />
             ))}
