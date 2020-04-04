@@ -1,9 +1,8 @@
-import _ from 'lodash'
-import React, { useCallback } from 'react'
-import { View } from 'react-native'
-
 import { useNavigation } from '@react-navigation/native'
 import { Avatar, Card, Text } from '@ui-kitten/components'
+import _ from 'lodash'
+import React, { useCallback } from 'react'
+import { StyleProp, View, ViewStyle } from 'react-native'
 
 const COLORS = {
   orange: '#ffc342',
@@ -21,11 +20,13 @@ interface Challenge {
 interface Props {
   challenge: Challenge
   width: number
+  style: StyleProp<ViewStyle>
 }
 
 export const ChallengeCard: React.FC<Props> = ({
   challenge: { id, name, color, people },
   width,
+  style,
 }) => {
   const navigation = useNavigation()
 
@@ -33,7 +34,7 @@ export const ChallengeCard: React.FC<Props> = ({
     navigation.navigate('ChallengeDetail', { id })
   }, [id, navigation])
   return (
-    <View style={{ flexDirection: 'column' }}>
+    <View style={[{ flexDirection: 'column' }, style]}>
       <Card
         appearance="filled"
         style={{

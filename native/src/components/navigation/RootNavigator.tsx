@@ -18,7 +18,7 @@ export const RootNavigator: React.FC = () => (
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ChallengeDetail" component={DetailScreen} />
       <Stack.Screen name="CompleteChallenge" component={SurveyScreen} />
-      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   </NavigationContainer>
 )
