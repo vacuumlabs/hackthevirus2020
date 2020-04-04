@@ -15,3 +15,23 @@ query Challenge($id: uuid!) {
     description
   }
 }
+
+mutation CompleteChallenge(
+  $assignment_id: uuid!
+  $completed_at: timestamptz!
+  $mood: mood_enum!
+) {
+  update_challenge_assignment(
+    where: {
+      id: {
+        _eq: $assignment_id
+      }
+    }
+    _set: {
+      completed_at: $completed_at
+      mood: $mood
+    }
+  ) {
+    affected_rows
+  }
+}

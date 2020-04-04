@@ -8,7 +8,7 @@ import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
 import { useChallengeQuery } from '../../../graphqlSdk'
 
 type Props = {
-  route: RouteProp<RootNavigatorParamList, 'Detail'>
+  route: RouteProp<RootNavigatorParamList, 'ChallengeDetail'>
 }
 
 export const DetailScreen: React.FC<Props> = ({ route }) => {
