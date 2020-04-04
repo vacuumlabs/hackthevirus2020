@@ -1,8 +1,17 @@
-query ExampleQuery {
+query Challenges {
   challenge {
-    challenger_id
-    end
     id
-    start
+    name
+    category
+    description
+  }
+}
+
+query Challenge($id: uuid!) {
+  challenge_by_pk (id: $id) {
+    id
+    name
+    category
+    description
   }
 }

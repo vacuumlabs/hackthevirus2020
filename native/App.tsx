@@ -1,7 +1,8 @@
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
+import { ApolloProvider } from '@apollo/react-hooks'
 import { RootNavigator } from '@components/navigation/RootNavigator'
 import { light as lightTheme, mapping } from '@eva-design/eva'
 import { ApplicationProvider } from '@ui-kitten/components'
@@ -14,9 +15,6 @@ const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
-  useEffect(() => {
-    client.ExampleQuery().then(console.log)
-  })
 
   if (!fontsLoaded) {
     return (
@@ -37,9 +35,12 @@ export default function App() {
   }
 
   return (
-    // @ts-ignore
-    <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
-      <RootNavigator />
-    </ApplicationProvider>
+    <ApolloProvider client={client}>
+      {/* 
+      // @ts-ignore */}
+      <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
+        <RootNavigator />
+      </ApplicationProvider>
+    </ApolloProvider>
   )
 }
