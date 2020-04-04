@@ -20,7 +20,7 @@ interface Challenge {
 interface Props {
   challenge: Challenge
   width: number
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
 }
 
 export const ChallengeCard: React.FC<Props> = ({
