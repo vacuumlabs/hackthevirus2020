@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-
 import { useNavigation } from '@react-navigation/native'
 import { Avatar, Card, Text } from '@ui-kitten/components'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
 
 interface Challenge {
   id: string
@@ -25,26 +24,24 @@ export const ChallengeCard: React.FC<Props> = ({
   const navigateToChallenge = useCallback(() => {
     navigation.navigate('Detail', { id })
   }, [id, navigation])
-
   return (
     <View style={{ flexDirection: 'column' }}>
-      <TouchableOpacity key={id} onPress={navigateToChallenge}>
-        <Card
-          appearance="filled"
-          style={{
-            backgroundColor: color,
-            marginHorizontal: 8,
-            width: width,
-            height: width,
-            borderRadius: 16,
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Text category="p1" status="control">
-            {name}
-          </Text>
-        </Card>
-      </TouchableOpacity>
+      <Card
+        appearance="filled"
+        style={{
+          backgroundColor: color,
+          marginHorizontal: 8,
+          width: width,
+          height: width,
+          borderRadius: 16,
+          justifyContent: 'flex-end',
+        }}
+        onPress={navigateToChallenge}
+      >
+        <Text category="p1" status="control">
+          {name}
+        </Text>
+      </Card>
 
       {people && (
         <View
