@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import * as React from 'react';
 import * as ApolloReactCommon from '@apollo/react-common';
+import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/react-components';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Maybe<T> = T | null;
@@ -1678,6 +1678,36 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type AcceptChallengeMutationVariables = {
+  challenge_id: Scalars['uuid'];
+  user_id: Scalars['uuid'];
+};
+
+
+export type AcceptChallengeMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_challenge_assignment?: Maybe<(
+    { __typename?: 'challenge_assignment_mutation_response' }
+    & Pick<Challenge_Assignment_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type CompleteChallengeMutationVariables = {
+  assignment_id: Scalars['uuid'];
+  completed_at: Scalars['timestamptz'];
+  mood: Mood_Enum;
+  note?: Maybe<Scalars['String']>;
+};
+
+
+export type CompleteChallengeMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_challenge_assignment?: Maybe<(
+    { __typename?: 'challenge_assignment_mutation_response' }
+    & Pick<Challenge_Assignment_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type ChallengesQueryVariables = {};
 
 
@@ -1699,6 +1729,10 @@ export type ChallengeQuery = (
   & { challenge_by_pk?: Maybe<(
     { __typename?: 'challenge' }
     & Pick<Challenge, 'id' | 'name' | 'category' | 'description'>
+    & { challenge_assignments: Array<(
+      { __typename?: 'challenge_assignment' }
+      & Pick<Challenge_Assignment, 'id' | 'assigned_at' | 'completed_at' | 'mood' | 'note'>
+    )> }
   )> }
 );
 
@@ -1745,21 +1779,6 @@ export type ChallengeCategoriesQuery = (
   )> }
 );
 
-export type CompleteChallengeMutationVariables = {
-  assignment_id: Scalars['uuid'];
-  completed_at: Scalars['timestamptz'];
-  mood: Mood_Enum;
-};
-
-
-export type CompleteChallengeMutation = (
-  { __typename?: 'mutation_root' }
-  & { update_challenge_assignment?: Maybe<(
-    { __typename?: 'challenge_assignment_mutation_response' }
-    & Pick<Challenge_Assignment_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type ChallengesByCategoryQueryVariables = {
   category: Scalars['String'];
   user_id: Scalars['uuid'];
@@ -1778,6 +1797,86 @@ export type ChallengesByCategoryQuery = (
 );
 
 
+export const AcceptChallengeDocument = gql`
+    mutation AcceptChallenge($challenge_id: uuid!, $user_id: uuid!) {
+  insert_challenge_assignment(objects: {challenge_id: $challenge_id, user_id: $user_id}) {
+    affected_rows
+  }
+}
+    `;
+export type AcceptChallengeMutationFn = ApolloReactCommon.MutationFunction<AcceptChallengeMutation, AcceptChallengeMutationVariables>;
+export type AcceptChallengeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AcceptChallengeMutation, AcceptChallengeMutationVariables>, 'mutation'>;
+
+    export const AcceptChallengeComponent = (props: AcceptChallengeComponentProps) => (
+      <ApolloReactComponents.Mutation<AcceptChallengeMutation, AcceptChallengeMutationVariables> mutation={AcceptChallengeDocument} {...props} />
+    );
+    
+
+/**
+ * __useAcceptChallengeMutation__
+ *
+ * To run a mutation, you first call `useAcceptChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptChallengeMutation, { data, loading, error }] = useAcceptChallengeMutation({
+ *   variables: {
+ *      challenge_id: // value for 'challenge_id'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useAcceptChallengeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AcceptChallengeMutation, AcceptChallengeMutationVariables>) {
+        return ApolloReactHooks.useMutation<AcceptChallengeMutation, AcceptChallengeMutationVariables>(AcceptChallengeDocument, baseOptions);
+      }
+export type AcceptChallengeMutationHookResult = ReturnType<typeof useAcceptChallengeMutation>;
+export type AcceptChallengeMutationResult = ApolloReactCommon.MutationResult<AcceptChallengeMutation>;
+export type AcceptChallengeMutationOptions = ApolloReactCommon.BaseMutationOptions<AcceptChallengeMutation, AcceptChallengeMutationVariables>;
+export const CompleteChallengeDocument = gql`
+    mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!, $note: String) {
+  update_challenge_assignment(where: {id: {_eq: $assignment_id}}, _set: {completed_at: $completed_at, mood: $mood, note: $note}) {
+    affected_rows
+  }
+}
+    `;
+export type CompleteChallengeMutationFn = ApolloReactCommon.MutationFunction<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
+export type CompleteChallengeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>, 'mutation'>;
+
+    export const CompleteChallengeComponent = (props: CompleteChallengeComponentProps) => (
+      <ApolloReactComponents.Mutation<CompleteChallengeMutation, CompleteChallengeMutationVariables> mutation={CompleteChallengeDocument} {...props} />
+    );
+    
+
+/**
+ * __useCompleteChallengeMutation__
+ *
+ * To run a mutation, you first call `useCompleteChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCompleteChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [completeChallengeMutation, { data, loading, error }] = useCompleteChallengeMutation({
+ *   variables: {
+ *      assignment_id: // value for 'assignment_id'
+ *      completed_at: // value for 'completed_at'
+ *      mood: // value for 'mood'
+ *      note: // value for 'note'
+ *   },
+ * });
+ */
+export function useCompleteChallengeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>) {
+        return ApolloReactHooks.useMutation<CompleteChallengeMutation, CompleteChallengeMutationVariables>(CompleteChallengeDocument, baseOptions);
+      }
+export type CompleteChallengeMutationHookResult = ReturnType<typeof useCompleteChallengeMutation>;
+export type CompleteChallengeMutationResult = ApolloReactCommon.MutationResult<CompleteChallengeMutation>;
+export type CompleteChallengeMutationOptions = ApolloReactCommon.BaseMutationOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
 export const ChallengesDocument = gql`
     query Challenges {
   challenge {
@@ -1826,6 +1925,13 @@ export const ChallengeDocument = gql`
     name
     category
     description
+    challenge_assignments {
+      id
+      assigned_at
+      completed_at
+      mood
+      note
+    }
   }
 }
     `;
@@ -1863,7 +1969,7 @@ export type ChallengeLazyQueryHookResult = ReturnType<typeof useChallengeLazyQue
 export type ChallengeQueryResult = ApolloReactCommon.QueryResult<ChallengeQuery, ChallengeQueryVariables>;
 export const AcceptedChallengesDocument = gql`
     query AcceptedChallenges($user_id: uuid!) {
-  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {assigned_at: asc}) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {assigned_at: desc}) {
     challenge {
       id
       category
@@ -1907,7 +2013,7 @@ export type AcceptedChallengesLazyQueryHookResult = ReturnType<typeof useAccepte
 export type AcceptedChallengesQueryResult = ApolloReactCommon.QueryResult<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>;
 export const CompletedChallengesDocument = gql`
     query CompletedChallenges($user_id: uuid!) {
-  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {completed_at: desc}) {
+  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {completed_at: desc}) {
     challenge {
       id
       category
@@ -1987,46 +2093,6 @@ export function useChallengeCategoriesLazyQuery(baseOptions?: ApolloReactHooks.L
 export type ChallengeCategoriesQueryHookResult = ReturnType<typeof useChallengeCategoriesQuery>;
 export type ChallengeCategoriesLazyQueryHookResult = ReturnType<typeof useChallengeCategoriesLazyQuery>;
 export type ChallengeCategoriesQueryResult = ApolloReactCommon.QueryResult<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>;
-export const CompleteChallengeDocument = gql`
-    mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!) {
-  update_challenge_assignment(where: {id: {_eq: $assignment_id}}, _set: {completed_at: $completed_at, mood: $mood}) {
-    affected_rows
-  }
-}
-    `;
-export type CompleteChallengeMutationFn = ApolloReactCommon.MutationFunction<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
-export type CompleteChallengeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>, 'mutation'>;
-
-    export const CompleteChallengeComponent = (props: CompleteChallengeComponentProps) => (
-      <ApolloReactComponents.Mutation<CompleteChallengeMutation, CompleteChallengeMutationVariables> mutation={CompleteChallengeDocument} {...props} />
-    );
-    
-
-/**
- * __useCompleteChallengeMutation__
- *
- * To run a mutation, you first call `useCompleteChallengeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCompleteChallengeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [completeChallengeMutation, { data, loading, error }] = useCompleteChallengeMutation({
- *   variables: {
- *      assignment_id: // value for 'assignment_id'
- *      completed_at: // value for 'completed_at'
- *      mood: // value for 'mood'
- *   },
- * });
- */
-export function useCompleteChallengeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>) {
-        return ApolloReactHooks.useMutation<CompleteChallengeMutation, CompleteChallengeMutationVariables>(CompleteChallengeDocument, baseOptions);
-      }
-export type CompleteChallengeMutationHookResult = ReturnType<typeof useCompleteChallengeMutation>;
-export type CompleteChallengeMutationResult = ApolloReactCommon.MutationResult<CompleteChallengeMutation>;
-export type CompleteChallengeMutationOptions = ApolloReactCommon.BaseMutationOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
 export const ChallengesByCategoryDocument = gql`
     query ChallengesByCategory($category: String!, $user_id: uuid!) {
   category_by_pk(value: $category) {
