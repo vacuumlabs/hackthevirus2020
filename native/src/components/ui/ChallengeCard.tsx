@@ -1,16 +1,10 @@
-import _ from 'lodash'
+import { getChallengeColor } from 'helpers'
 import React, { useCallback } from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 import { useGlobalState } from 'state'
 
 import { useNavigation } from '@react-navigation/native'
 import { Avatar, Card, Text } from '@ui-kitten/components'
-
-const COLORS = {
-  orange: '#ffc342',
-  navy: '#0c2945',
-  cyan: '#37a2a4',
-}
 
 interface Challenge {
   id: string
@@ -41,7 +35,7 @@ const ChallengeCardComponent: React.FC<Props> = ({
       <Card
         appearance="filled"
         style={{
-          backgroundColor: color || _.sample(COLORS),
+          backgroundColor: color || getChallengeColor(id),
           marginHorizontal: 8,
           width: width,
           height: width,

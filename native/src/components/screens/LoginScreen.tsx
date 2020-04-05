@@ -1,4 +1,3 @@
-import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   AsyncStorage,
@@ -9,6 +8,9 @@ import {
   SafeAreaView,
 } from 'react-native'
 import { v4 } from 'uuid'
+
+import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
+
 import { useCreateUserMutation } from '../../../graphqlSdk'
 import { useGlobalState } from '../../state'
 
