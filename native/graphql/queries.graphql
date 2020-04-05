@@ -13,13 +13,20 @@ query Challenge($id: uuid!) {
     name
     category
     description
+    challenge_assignments {
+      id
+      assigned_at
+      completed_at
+      mood
+      note
+    }
   }
 }
 
 query AcceptedChallenges($user_id: uuid!) {
   challenge_assignment(
-    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: false } }
-    order_by: { assigned_at: asc }
+    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: true } }
+    order_by: { assigned_at: desc }
   ) {
     challenge {
       id
@@ -32,7 +39,7 @@ query AcceptedChallenges($user_id: uuid!) {
 
 query CompletedChallenges($user_id: uuid!) {
   challenge_assignment(
-    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: true } }
+    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: false } }
     order_by: { completed_at: desc }
   ) {
     challenge {
@@ -50,15 +57,6 @@ query ChallengeCategories {
   }
 }
 
-mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!) {
-  update_challenge_assignment(
-    where: { id: { _eq: $assignment_id } }
-    _set: { completed_at: $completed_at, mood: $mood }
-  ) {
-    affected_rows
-  }
-}
-
 query ChallengesByCategory($category: String!, $user_id: uuid!) {
   category_by_pk(value: $category) {
     challenges(where: { _not: { challenge_assignments: { user_id: { _eq: $user_id } } } }) {
@@ -68,3 +66,4 @@ query ChallengesByCategory($category: String!, $user_id: uuid!) {
     }
   }
 }
+

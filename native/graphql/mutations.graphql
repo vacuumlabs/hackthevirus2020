@@ -1,0 +1,25 @@
+mutation AcceptChallenge($challenge_id: uuid!, $user_id: uuid!) {
+  insert_challenge_assignment(
+    objects: {
+      challenge_id: $challenge_id,
+      user_id: $user_id,
+    }
+  ) {
+    affected_rows
+  }
+}
+
+mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $mood: mood_enum!, $note: String) {
+  update_challenge_assignment(
+    where: {
+      id: { _eq: $assignment_id }
+    }
+    _set: {
+      completed_at: $completed_at,
+      mood: $mood,
+      note: $note
+    }
+  ) {
+    affected_rows
+  }
+}
