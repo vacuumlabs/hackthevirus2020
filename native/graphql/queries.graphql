@@ -1,19 +1,10 @@
-query Challenges {
-  challenge {
-    id
-    name
-    category
-    description
-  }
-}
-
-query Challenge($id: uuid!) {
+query Challenge($id: uuid!, $user_id: uuid!) {
   challenge_by_pk(id: $id) {
     id
     name
     category
     description
-    challenge_assignments {
+    challenge_assignments (where: { user_id: { _eq: $user_id }}) {
       id
       assigned_at
       completed_at

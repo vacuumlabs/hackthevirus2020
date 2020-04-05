@@ -32,3 +32,14 @@ mutation AddAttachment($assignment_id: uuid!, $attachment: String!) {
     affected_rows
   }
 }
+
+mutation CreateUser($user_id: uuid!, $username: String!) {
+  insert_user(
+    objects: {
+      id: $user_id
+      name: $username
+    }
+  ) {
+    affected_rows
+  }
+}

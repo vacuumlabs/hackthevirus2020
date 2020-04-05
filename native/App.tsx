@@ -2,6 +2,7 @@ import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
+import { useGlobalState } from 'state'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 import { RootNavigator } from '@components/navigation/RootNavigator'
@@ -10,12 +11,14 @@ import { ApplicationProvider } from '@ui-kitten/components'
 
 import { default as customMapping } from './custom-mapping.json'
 import { default as appTheme } from './custom-theme.json'
-import { client } from './gql'
+import { getClient } from './gql'
 
 const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
+
+  const [userId] = useGlobalState('userId')
 
   if (!fontsLoaded) {
     return (
@@ -37,7 +40,7 @@ export default function App() {
   }
 
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={getClient(userId)}>
       {/* 
       // @ts-ignore */}
       <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>

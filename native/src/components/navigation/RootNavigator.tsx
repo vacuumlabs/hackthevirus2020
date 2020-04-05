@@ -8,6 +8,7 @@ import {
   HomeScreen,
   TakePhotoScreen,
 } from '@components/screens'
+import { LoginScreen } from '@components/screens/LoginScreen'
 import { spacing } from '@components/ui/constants'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -15,7 +16,10 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { useTheme } from '@ui-kitten/components'
 
+import { useGlobalState } from '../../state'
+
 export type RootNavigatorParamList = {
+  Login: undefined
   Root: undefined
   CompleteChallenge: { assignmentId: string }
   TakePhoto: { assignmentId: string }
@@ -74,13 +78,22 @@ const TabNavigator: React.FC = () => {
   )
 }
 
-export const RootNavigator: React.FC = () => (
-  <NavigationContainer>
-    <RootStack.Navigator initialRouteName="Root" headerMode="none">
-      <RootStack.Screen name="Root" component={TabNavigator} />
-      {/* NOTE: Showing screens above tabs this way. Maybe there is better way in react-navigationn5 but don't have time to find out. */}
-      <RootStack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
-      <RootStack.Screen name="TakePhoto" component={TakePhotoScreen} />
-    </RootStack.Navigator>
-  </NavigationContainer>
-)
+export const RootNavigator: React.FC = () => {
+  const [userId] = useGlobalState('userId')
+  return (
+    <NavigationContainer>
+      <RootStack.Navigator initialRouteName="Root" headerMode="none">
+        {userId === undefined ? (
+          <RootStack.Screen name="Login" component={LoginScreen} />
+        ) : (
+          <>
+            <RootStack.Screen name="Root" component={TabNavigator} />
+            {/* NOTE: Showing screens above tabs this way. Maybe there is better way in react-navigationn5 but don't have time to find out. */}
+            <RootStack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
+            <RootStack.Screen name="TakePhoto" component={TakePhotoScreen} />
+          </>
+        )}
+      </RootStack.Navigator>
+    </NavigationContainer>
+  )
+}
