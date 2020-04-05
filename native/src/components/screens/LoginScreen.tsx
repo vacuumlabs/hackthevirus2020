@@ -1,3 +1,4 @@
+import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   AsyncStorage,
@@ -8,9 +9,6 @@ import {
   SafeAreaView,
 } from 'react-native'
 import { v4 } from 'uuid'
-
-import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
-
 import { useCreateUserMutation } from '../../../graphqlSdk'
 import { useGlobalState } from '../../state'
 
@@ -47,6 +45,7 @@ export const LoginScreen: React.FC = () => {
       const uuid = v4()
       console.log(uuid)
       try {
+        console.log('REGISTERING USER', uuid, username)
         const { data } = await createUser({ variables: { user_id: uuid, username } })
         if (data.insert_user.affected_rows > 0) {
           await AsyncStorage.setItem(USER_ID_STORAGE_KEY, uuid)
@@ -57,7 +56,7 @@ export const LoginScreen: React.FC = () => {
       }
     }
     doRegistration()
-  }, [])
+  }, [username])
 
   if (!finishedLoadingUser) {
     return <Text>Loading...</Text>
