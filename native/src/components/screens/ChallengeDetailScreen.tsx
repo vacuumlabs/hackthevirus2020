@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
-import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { StackParamList } from '@components/navigation/RootNavigator'
 import { Header } from '@components/ui/Header'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
@@ -13,7 +13,7 @@ import {
 } from '../../../graphqlSdk'
 
 type Props = {
-  route: RouteProp<RootNavigatorParamList, 'ChallengeDetail'>
+  route: RouteProp<StackParamList, 'ChallengeDetail'>
 }
 
 type ActionButtonProps = {

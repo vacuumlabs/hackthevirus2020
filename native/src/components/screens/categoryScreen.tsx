@@ -3,7 +3,7 @@ import React from 'react'
 import { Dimensions } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 
-import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { StackParamList } from '@components/navigation/RootNavigator'
 import { ChallengeCard } from '@components/ui/ChallengeCard'
 import { Header } from '@components/ui/Header'
 import { RouteProp } from '@react-navigation/native'
@@ -12,7 +12,7 @@ import { Layout, Text } from '@ui-kitten/components'
 import { useChallengesByCategoryQuery } from '../../../graphqlSdk'
 
 type Props = {
-  route: RouteProp<RootNavigatorParamList, 'Category'>
+  route: RouteProp<StackParamList, 'Category'>
 }
 
 export const CategoryScreen: React.FC<Props> = ({ route }) => {
