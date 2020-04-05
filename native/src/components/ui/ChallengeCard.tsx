@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native'
-import { Avatar, Card, Text } from '@ui-kitten/components'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
+
+import { useNavigation } from '@react-navigation/native'
+import { Avatar, Card, Text } from '@ui-kitten/components'
 
 const COLORS = {
   orange: '#ffc342',
@@ -23,7 +24,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export const ChallengeCard: React.FC<Props> = ({
+const ChallengeCardComponent: React.FC<Props> = ({
   challenge: { id, name, color, people },
   width,
   style,
@@ -72,3 +73,5 @@ export const ChallengeCard: React.FC<Props> = ({
     </View>
   )
 }
+
+export const ChallengeCard = React.memo(ChallengeCardComponent)

@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native'
-import { Card, Text, useTheme } from '@ui-kitten/components'
 import { categoryMapping } from 'helpers'
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
+
+import { useNavigation } from '@react-navigation/native'
+import { Card, Text, useTheme } from '@ui-kitten/components'
 
 interface Props {
   category: string
