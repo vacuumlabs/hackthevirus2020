@@ -48,7 +48,12 @@ export const HomeScreen: React.FC = () => {
         <SafeAreaView>
           <Text
             category="h3"
-            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[6] }}
+            style={{
+              fontFamily: 'AbrilFatface-Regular',
+              marginLeft: spacing[4],
+              marginBottom: spacing[4],
+              marginTop: spacing[6],
+            }}
           >
             Your challenges
           </Text>
@@ -70,8 +75,13 @@ export const HomeScreen: React.FC = () => {
       <ScrollView>
         <Layout level="1">
           <Text
-            category="h6"
-            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+            category="h5"
+            style={{
+              fontFamily: 'OpenSans-Bold',
+              marginLeft: spacing[4],
+              marginBottom: spacing[4],
+              marginTop: spacing[5],
+            }}
           >
             Find a new challenge
           </Text>
@@ -90,8 +100,13 @@ export const HomeScreen: React.FC = () => {
           </ScrollView>
 
           <Text
-            category="h6"
-            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+            category="h5"
+            style={{
+              fontFamily: 'OpenSans-Bold',
+              marginLeft: spacing[4],
+              marginBottom: spacing[4],
+              marginTop: spacing[5],
+            }}
           >
             See your previous challenges
           </Text>

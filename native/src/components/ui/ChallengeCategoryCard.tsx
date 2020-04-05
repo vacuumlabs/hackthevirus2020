@@ -32,7 +32,9 @@ export const ChallengeCategoryCard: React.FC<Props> = ({ category, width }) => {
         }}
         onPress={navigateToCategory}
       >
-        <Text category="p1">{categoryMapping[category]}</Text>
+        <Text category="p1" style={{ fontFamily: 'OpenSans-Bold' }}>
+          {categoryMapping[category]}
+        </Text>
       </Card>
     </View>
   )
