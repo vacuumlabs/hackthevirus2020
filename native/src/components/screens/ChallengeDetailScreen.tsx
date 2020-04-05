@@ -1,9 +1,12 @@
+import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { useGlobalState } from 'state'
 
 import { StackParamList } from '@components/navigation/RootNavigator'
+import { spacing } from '@components/ui/constants'
 import { Header } from '@components/ui/Header'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Button, Layout, Text, useTheme } from '@ui-kitten/components'
 
@@ -12,6 +15,7 @@ import {
   useAcceptChallengeMutation,
   useChallengeQuery,
 } from '../../../graphqlSdk'
+import { MOOD_ICONS } from './CompleteChallengeScreen'
 
 type Props = {
   route: RouteProp<StackParamList, 'ChallengeDetail'>
@@ -87,6 +91,8 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
 
   const assignment = challenge_assignments[0] || undefined
 
+  const isCompleted = assignment && !!assignment.completed_at
+
   return (
     <Layout style={{ flex: 1 }}>
       <Header title={name} style={{ paddingBottom: photoDimensions.height - 30 }} />
@@ -127,24 +133,51 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
                     source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
                   />
                 ) : (
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: 'rgba(230, 230, 230, 0.6)',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 12,
-                      }}
-                    >
-                      <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
-                    </View>
-                  )}
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(230, 230, 230, 0.6)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
+                  </View>
+                )}
               </TouchableOpacity>
             )}
           </View>
-          <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
-            {description}
-          </Text>
+          {isCompleted ? (
+            <View>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialCommunityIcons
+                  name={MOOD_ICONS[assignment.mood]}
+                  size={64}
+                  color={'#fff'}
+                />
+                <View style={{ flex: 1, paddingHorizontal: spacing[2] }}>
+                  <Text
+                    appearance="alternative"
+                    style={{
+                      fontSize: 18,
+                      fontFamily: 'OpenSans-Bold',
+                    }}
+                  >
+                    {assignment.note || description}
+                  </Text>
+                </View>
+              </View>
+
+              <Text appearance="alternative" style={{ alignSelf: 'flex-end' }}>
+                {format(new Date(assignment.completed_at), 'd. M. yyyy')}
+              </Text>
+            </View>
+          ) : (
+            <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
+              {description}
+            </Text>
+          )}
         </View>
 
         <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
