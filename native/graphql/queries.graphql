@@ -1,8 +1,69 @@
-query ExampleQuery {
+query Challenges {
   challenge {
-    challenger_id
-    end
     id
-    start
+    name
+    category
+    description
   }
 }
+
+query Challenge($id: uuid!) {
+  challenge_by_pk(id: $id) {
+    id
+    name
+    category
+    description
+    challenge_assignments {
+      id
+      assigned_at
+      completed_at
+      mood
+      note
+    }
+  }
+}
+
+query AcceptedChallenges($user_id: uuid!) {
+  challenge_assignment(
+    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: true } }
+    order_by: { assigned_at: desc }
+  ) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+
+query CompletedChallenges($user_id: uuid!) {
+  challenge_assignment(
+    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: false } }
+    order_by: { completed_at: desc }
+  ) {
+    challenge {
+      id
+      category
+      description
+      name
+    }
+  }
+}
+
+query ChallengeCategories {
+  category {
+    value
+  }
+}
+
+query ChallengesByCategory($category: String!, $user_id: uuid!) {
+  category_by_pk(value: $category) {
+    challenges(where: { _not: { challenge_assignments: { user_id: { _eq: $user_id } } } }) {
+      id
+      name
+      description
+    }
+  }
+}
+

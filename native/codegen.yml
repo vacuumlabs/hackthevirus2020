@@ -4,8 +4,11 @@ schema:
         x-hasura-admin-secret: VacuumlabsIsTheBest
 documents: 'graphql/**/*.graphql'
 generates:
-  graphqlSdk.ts:
+  graphqlSdk.tsx:
     plugins:
       - typescript
       - typescript-operations
-      - typescript-graphql-request
+      - typescript-react-apollo
+    config:
+      withHOC: false
+      withHooks: true

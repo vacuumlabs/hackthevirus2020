@@ -42,6 +42,7 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-object-literal-type-assertion": "off",
     "@typescript-eslint/ban-ts-ignore": "warn",
+    "@typescript-eslint/camelcase": "off",
     "react/prop-types": "off",
     "react/no-children-prop": "off",
     "react/display-name": "off",
