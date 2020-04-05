@@ -66,4 +66,3 @@ query ChallengesByCategory($category: String!, $user_id: uuid!) {
     }
   }
 }
-

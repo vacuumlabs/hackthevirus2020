@@ -23,3 +23,12 @@ mutation CompleteChallenge($assignment_id: uuid!, $completed_at: timestamptz!, $
     affected_rows
   }
 }
+
+mutation AddAttachment($assignment_id: uuid!, $attachment: String!) {
+  update_challenge_assignment(
+    where: { id: { _eq: $assignment_id } }
+    _set: { attachment: $attachment }
+  ) {
+    affected_rows
+  }
+}

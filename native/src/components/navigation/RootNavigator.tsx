@@ -6,6 +6,7 @@ import {
   CompleteChallengeScreen,
   DetailScreen,
   HomeScreen,
+  TakePhotoScreen,
 } from '@components/screens'
 import { spacing } from '@components/ui/constants'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -17,6 +18,7 @@ import { useTheme } from '@ui-kitten/components'
 export type RootNavigatorParamList = {
   Root: undefined
   CompleteChallenge: { assignmentId: string }
+  TakePhoto: { id: string }
 }
 
 export type StackParamList = {
@@ -78,6 +80,7 @@ export const RootNavigator: React.FC = () => (
       <RootStack.Screen name="Root" component={TabNavigator} />
       {/* NOTE: Showing screens above tabs this way. Maybe there is better way in react-navigationn5 but don't have time to find out. */}
       <RootStack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
+      <RootStack.Screen name="TakePhoto" component={TakePhotoScreen} />
     </RootStack.Navigator>
   </NavigationContainer>
 )
