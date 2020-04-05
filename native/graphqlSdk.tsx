@@ -1708,6 +1708,20 @@ export type CompleteChallengeMutation = (
   )> }
 );
 
+export type AddAttachmentMutationVariables = {
+  assignment_id: Scalars['uuid'];
+  attachment: Scalars['String'];
+};
+
+
+export type AddAttachmentMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_challenge_assignment?: Maybe<(
+    { __typename?: 'challenge_assignment_mutation_response' }
+    & Pick<Challenge_Assignment_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type ChallengesQueryVariables = {};
 
 
@@ -1731,7 +1745,7 @@ export type ChallengeQuery = (
     & Pick<Challenge, 'id' | 'name' | 'category' | 'description'>
     & { challenge_assignments: Array<(
       { __typename?: 'challenge_assignment' }
-      & Pick<Challenge_Assignment, 'id' | 'assigned_at' | 'completed_at' | 'mood' | 'note'>
+      & Pick<Challenge_Assignment, 'id' | 'assigned_at' | 'completed_at' | 'mood' | 'note' | 'attachment'>
     )> }
   )> }
 );
@@ -1877,6 +1891,45 @@ export function useCompleteChallengeMutation(baseOptions?: ApolloReactHooks.Muta
 export type CompleteChallengeMutationHookResult = ReturnType<typeof useCompleteChallengeMutation>;
 export type CompleteChallengeMutationResult = ApolloReactCommon.MutationResult<CompleteChallengeMutation>;
 export type CompleteChallengeMutationOptions = ApolloReactCommon.BaseMutationOptions<CompleteChallengeMutation, CompleteChallengeMutationVariables>;
+export const AddAttachmentDocument = gql`
+    mutation AddAttachment($assignment_id: uuid!, $attachment: String!) {
+  update_challenge_assignment(where: {id: {_eq: $assignment_id}}, _set: {attachment: $attachment}) {
+    affected_rows
+  }
+}
+    `;
+export type AddAttachmentMutationFn = ApolloReactCommon.MutationFunction<AddAttachmentMutation, AddAttachmentMutationVariables>;
+export type AddAttachmentComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddAttachmentMutation, AddAttachmentMutationVariables>, 'mutation'>;
+
+    export const AddAttachmentComponent = (props: AddAttachmentComponentProps) => (
+      <ApolloReactComponents.Mutation<AddAttachmentMutation, AddAttachmentMutationVariables> mutation={AddAttachmentDocument} {...props} />
+    );
+    
+
+/**
+ * __useAddAttachmentMutation__
+ *
+ * To run a mutation, you first call `useAddAttachmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddAttachmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addAttachmentMutation, { data, loading, error }] = useAddAttachmentMutation({
+ *   variables: {
+ *      assignment_id: // value for 'assignment_id'
+ *      attachment: // value for 'attachment'
+ *   },
+ * });
+ */
+export function useAddAttachmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddAttachmentMutation, AddAttachmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddAttachmentMutation, AddAttachmentMutationVariables>(AddAttachmentDocument, baseOptions);
+      }
+export type AddAttachmentMutationHookResult = ReturnType<typeof useAddAttachmentMutation>;
+export type AddAttachmentMutationResult = ApolloReactCommon.MutationResult<AddAttachmentMutation>;
+export type AddAttachmentMutationOptions = ApolloReactCommon.BaseMutationOptions<AddAttachmentMutation, AddAttachmentMutationVariables>;
 export const ChallengesDocument = gql`
     query Challenges {
   challenge {
@@ -1931,6 +1984,7 @@ export const ChallengeDocument = gql`
       completed_at
       mood
       note
+      attachment
     }
   }
 }

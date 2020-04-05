@@ -19,6 +19,7 @@ query Challenge($id: uuid!) {
       completed_at
       mood
       note
+      attachment
     }
   }
 }
@@ -66,4 +67,3 @@ query ChallengesByCategory($category: String!, $user_id: uuid!) {
     }
   }
 }
-
