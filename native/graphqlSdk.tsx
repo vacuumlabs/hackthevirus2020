@@ -1722,19 +1722,23 @@ export type AddAttachmentMutation = (
   )> }
 );
 
-export type ChallengesQueryVariables = {};
+export type CreateUserMutationVariables = {
+  user_id: Scalars['uuid'];
+  username: Scalars['String'];
+};
 
 
-export type ChallengesQuery = (
-  { __typename?: 'query_root' }
-  & { challenge: Array<(
-    { __typename?: 'challenge' }
-    & Pick<Challenge, 'id' | 'name' | 'category' | 'description'>
+export type CreateUserMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_user?: Maybe<(
+    { __typename?: 'user_mutation_response' }
+    & Pick<User_Mutation_Response, 'affected_rows'>
   )> }
 );
 
 export type ChallengeQueryVariables = {
   id: Scalars['uuid'];
+  user_id: Scalars['uuid'];
 };
 
 
@@ -1930,55 +1934,53 @@ export function useAddAttachmentMutation(baseOptions?: ApolloReactHooks.Mutation
 export type AddAttachmentMutationHookResult = ReturnType<typeof useAddAttachmentMutation>;
 export type AddAttachmentMutationResult = ApolloReactCommon.MutationResult<AddAttachmentMutation>;
 export type AddAttachmentMutationOptions = ApolloReactCommon.BaseMutationOptions<AddAttachmentMutation, AddAttachmentMutationVariables>;
-export const ChallengesDocument = gql`
-    query Challenges {
-  challenge {
-    id
-    name
-    category
-    description
+export const CreateUserDocument = gql`
+    mutation CreateUser($user_id: uuid!, $username: String!) {
+  insert_user(objects: {id: $user_id, name: $username}) {
+    affected_rows
   }
 }
     `;
-export type ChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ChallengesQuery, ChallengesQueryVariables>, 'query'>;
+export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+export type CreateUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateUserMutation, CreateUserMutationVariables>, 'mutation'>;
 
-    export const ChallengesComponent = (props: ChallengesComponentProps) => (
-      <ApolloReactComponents.Query<ChallengesQuery, ChallengesQueryVariables> query={ChallengesDocument} {...props} />
+    export const CreateUserComponent = (props: CreateUserComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateUserMutation, CreateUserMutationVariables> mutation={CreateUserDocument} {...props} />
     );
     
 
 /**
- * __useChallengesQuery__
+ * __useCreateUserMutation__
  *
- * To run a query within a React component, call `useChallengesQuery` and pass it any options that fit your needs.
- * When your component renders, `useChallengesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useChallengesQuery({
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
+ *      user_id: // value for 'user_id'
+ *      username: // value for 'username'
  *   },
  * });
  */
-export function useChallengesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ChallengesQuery, ChallengesQueryVariables>) {
-        return ApolloReactHooks.useQuery<ChallengesQuery, ChallengesQueryVariables>(ChallengesDocument, baseOptions);
+export function useCreateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, baseOptions);
       }
-export function useChallengesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ChallengesQuery, ChallengesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<ChallengesQuery, ChallengesQueryVariables>(ChallengesDocument, baseOptions);
-        }
-export type ChallengesQueryHookResult = ReturnType<typeof useChallengesQuery>;
-export type ChallengesLazyQueryHookResult = ReturnType<typeof useChallengesLazyQuery>;
-export type ChallengesQueryResult = ApolloReactCommon.QueryResult<ChallengesQuery, ChallengesQueryVariables>;
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const ChallengeDocument = gql`
-    query Challenge($id: uuid!) {
+    query Challenge($id: uuid!, $user_id: uuid!) {
   challenge_by_pk(id: $id) {
     id
     name
     category
     description
-    challenge_assignments {
+    challenge_assignments(where: {user_id: {_eq: $user_id}}) {
       id
       assigned_at
       completed_at
@@ -2009,6 +2011,7 @@ export type ChallengeComponentProps = Omit<ApolloReactComponents.QueryComponentO
  * const { data, loading, error } = useChallengeQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      user_id: // value for 'user_id'
  *   },
  * });
  */

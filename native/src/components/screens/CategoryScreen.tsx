@@ -2,6 +2,7 @@ import { categoryMapping } from 'helpers'
 import React from 'react'
 import { Dimensions } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { useGlobalState } from 'state'
 
 import { StackParamList } from '@components/navigation/RootNavigator'
 import { ChallengeCard } from '@components/ui/ChallengeCard'
@@ -17,8 +18,9 @@ type Props = {
 
 export const CategoryScreen: React.FC<Props> = ({ route }) => {
   const { category } = route.params
+  const [userId] = useGlobalState('userId')
   const { data, loading, error } = useChallengesByCategoryQuery({
-    variables: { user_id: '8003885c-e560-4263-a4e1-171293278a50', category },
+    variables: { user_id: userId, category },
   })
 
   if (loading) {

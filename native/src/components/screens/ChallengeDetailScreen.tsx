@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { useGlobalState } from 'state'
 
 import { StackParamList } from '@components/navigation/RootNavigator'
 import { Header } from '@components/ui/Header'
@@ -21,13 +22,13 @@ type ActionButtonProps = {
   challengeId: string
 }
 
-const userId = '8003885c-e560-4263-a4e1-171293278a50'
 const photoDimensions = { width: 120, height: 200 }
 const photoOffset = 30
 
 const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId }) => {
   const [acceptChallenge, { loading }] = useAcceptChallengeMutation()
   const navigation = useNavigation()
+  const [userId] = useGlobalState('userId')
 
   const onAcceptChallenge = useCallback(() => {
     async function doAccept() {
@@ -38,7 +39,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId })
       navigation.navigate('Home')
     }
     doAccept()
-  }, [acceptChallenge, challengeId, navigation])
+  }, [acceptChallenge, challengeId, navigation, userId])
 
   const onCompleteChallenge = useCallback(() => {
     navigation.navigate('CompleteChallenge', { assignmentId: assignments[0].id })
@@ -64,10 +65,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId })
 export const DetailScreen: React.FC<Props> = ({ route }) => {
   const theme = useTheme()
   const navigation = useNavigation()
+  const [userId] = useGlobalState('userId')
 
   const { id } = route.params
   const { data, loading, error } = useChallengeQuery({
-    variables: { id },
+    variables: { id, user_id: userId },
     fetchPolicy: 'cache-and-network',
   })
 
@@ -125,18 +127,18 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
                     source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
                   />
                 ) : (
-                  <View
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'rgba(230, 230, 230, 0.6)',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 12,
-                    }}
-                  >
-                    <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
-                  </View>
-                )}
+                    <View
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'rgba(230, 230, 230, 0.6)',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 12,
+                      }}
+                    >
+                      <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
+                    </View>
+                  )}
               </TouchableOpacity>
             )}
           </View>
