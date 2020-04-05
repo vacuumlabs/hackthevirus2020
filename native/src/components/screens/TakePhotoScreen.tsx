@@ -1,17 +1,22 @@
-import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
-import { RouteProp } from '@react-navigation/native'
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, View } from 'react-native'
+
+import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { NavigationProp, RouteProp } from '@react-navigation/native'
+import { Button } from '@ui-kitten/components'
+
 import { useAddAttachmentMutation } from '../../../graphqlSdk'
 
 type Props = {
   route: RouteProp<RootNavigatorParamList, 'TakePhoto'>
+  navigation: NavigationProp<RootNavigatorParamList, 'TakePhoto'>
 }
 
-export const TakePhotoScreen: React.FC<Props> = ({ route }) => {
+export const TakePhotoScreen: React.FC<Props> = ({ route, navigation }) => {
   const [hasPermission, setHasPermission] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back)
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [addAttachment] = useAddAttachmentMutation()
 
   useEffect(() => {
@@ -30,8 +35,15 @@ export const TakePhotoScreen: React.FC<Props> = ({ route }) => {
 
   const snap = async () => {
     if (ref) {
+      setLoading(true)
       const result = await ref.current.takePictureAsync({ quality: 0.5, base64: true })
-      addAttachment({ variables: { assignment_id: route.params.id, attachment: result.base64 } })
+      await addAttachment({
+        variables: { assignment_id: route.params.assignmentId, attachment: result.base64 },
+        refetchQueries: ['Challenge'],
+        awaitRefetchQueries: true,
+      })
+      setLoading(false)
+      navigation.goBack()
     }
   }
 
@@ -46,29 +58,29 @@ export const TakePhotoScreen: React.FC<Props> = ({ route }) => {
           style={{
             flex: 1,
             backgroundColor: 'transparent',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
             flexDirection: 'row',
           }}
         >
-          <TouchableOpacity
-            style={{
-              flex: 0.1,
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-            }}
-            onPress={flip}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-            }}
-            onPress={snap}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> SNAP </Text>
-          </TouchableOpacity>
+          <View>
+            <Button
+              status="warning"
+              onPress={snap}
+              style={{ marginBottom: 10 }}
+              disabled={isLoading}
+            >
+              Take a photo
+            </Button>
+            <Button
+              status="success"
+              onPress={flip}
+              style={{ marginBottom: 10 }}
+              disabled={isLoading}
+            >
+              Switch camera
+            </Button>
+          </View>
         </View>
       </Camera>
     </View>

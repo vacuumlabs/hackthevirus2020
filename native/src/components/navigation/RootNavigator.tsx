@@ -18,7 +18,7 @@ import { useTheme } from '@ui-kitten/components'
 export type RootNavigatorParamList = {
   Root: undefined
   CompleteChallenge: { assignmentId: string }
-  TakePhoto: { id: string }
+  TakePhoto: { assignmentId: string }
 }
 
 export type StackParamList = {

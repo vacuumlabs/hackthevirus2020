@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 
 import { StackParamList } from '@components/navigation/RootNavigator'
 import { Header } from '@components/ui/Header'
@@ -22,9 +22,11 @@ type ActionButtonProps = {
 }
 
 const userId = '8003885c-e560-4263-a4e1-171293278a50'
+const photoDimensions = { width: 120, height: 200 }
+const photoOffset = 30
 
 const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId }) => {
-  const [acceptChallenge] = useAcceptChallengeMutation()
+  const [acceptChallenge, { loading }] = useAcceptChallengeMutation()
   const navigation = useNavigation()
 
   const onAcceptChallenge = useCallback(() => {
@@ -44,7 +46,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId })
 
   if (assignments.length === 0) {
     return (
-      <Button status="primary" onPress={onAcceptChallenge}>
+      <Button status="primary" onPress={onAcceptChallenge} disabled={loading}>
         Accept the challenge
       </Button>
     )
@@ -61,6 +63,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId })
 
 export const DetailScreen: React.FC<Props> = ({ route }) => {
   const theme = useTheme()
+  const navigation = useNavigation()
 
   const { id } = route.params
   const { data, loading, error } = useChallengeQuery({
@@ -80,9 +83,11 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
     challenge_by_pk: { name, description, challenge_assignments },
   } = data
 
+  const assignment = challenge_assignments[0]
+
   return (
     <Layout style={{ flex: 1 }}>
-      <Header title={name} />
+      <Header title={name} style={{ paddingBottom: photoDimensions.height - 30 }} />
       <Layout
         style={{
           backgroundColor: theme['color-warning-500'],
@@ -92,9 +97,51 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
           justifyContent: 'space-between',
         }}
       >
-        <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
-          {description}
-        </Text>
+        <View>
+          <View
+            style={{
+              height: photoDimensions.height,
+              width: photoDimensions.width,
+              alignSelf: 'flex-end',
+              marginTop: -photoDimensions.height + photoOffset,
+              marginBottom: photoOffset,
+              marginRight: 20,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('TakePhoto', { assignmentId: assignment.id })
+              }}
+              style={{ flex: 1 }}
+            >
+              {assignment.attachment ? (
+                <Image
+                  style={{
+                    height: photoDimensions.height,
+                    width: photoDimensions.width,
+                    borderRadius: 12,
+                  }}
+                  source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
+                />
+              ) : (
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(230, 230, 230, 0.6)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 12,
+                  }}
+                >
+                  <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+          <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
+            {description}
+          </Text>
+        </View>
 
         <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
           <ActionButton assignments={challenge_assignments} challengeId={id} />

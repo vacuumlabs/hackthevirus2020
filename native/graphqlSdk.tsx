@@ -1745,7 +1745,7 @@ export type ChallengeQuery = (
     & Pick<Challenge, 'id' | 'name' | 'category' | 'description'>
     & { challenge_assignments: Array<(
       { __typename?: 'challenge_assignment' }
-      & Pick<Challenge_Assignment, 'id' | 'assigned_at' | 'completed_at' | 'mood' | 'note'>
+      & Pick<Challenge_Assignment, 'id' | 'assigned_at' | 'completed_at' | 'mood' | 'note' | 'attachment'>
     )> }
   )> }
 );
@@ -1984,6 +1984,7 @@ export const ChallengeDocument = gql`
       completed_at
       mood
       note
+      attachment
     }
   }
 }

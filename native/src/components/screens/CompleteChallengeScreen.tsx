@@ -24,7 +24,7 @@ type Props = {
 
 export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
   const { assignmentId } = route.params
-  const [completeChallenge] = useCompleteChallengeMutation()
+  const [completeChallenge, { loading }] = useCompleteChallengeMutation()
 
   const [selectedMood, setSelectedMood] = useState(null)
   const [note, setNote] = useState('')
@@ -124,7 +124,7 @@ export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
             onChangeText={setNote}
           />
         </KeyboardAvoidingView>
-        <Button status="warning" onPress={onCompleteChallenge}>
+        <Button status="warning" onPress={onCompleteChallenge} disabled={loading}>
           Submit
         </Button>
       </SafeAreaView>
