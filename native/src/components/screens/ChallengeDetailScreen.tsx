@@ -127,18 +127,18 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
                     source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
                   />
                 ) : (
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: 'rgba(230, 230, 230, 0.6)',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 12,
-                      }}
-                    >
-                      <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
-                    </View>
-                  )}
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(230, 230, 230, 0.6)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
+                  </View>
+                )}
               </TouchableOpacity>
             )}
           </View>
