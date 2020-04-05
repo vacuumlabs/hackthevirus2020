@@ -4,13 +4,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
+import { spacing } from '@components/ui/constants'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Button, Input, Layout, Text } from '@ui-kitten/components'
 
 import { Mood_Enum as MoodEnum, useCompleteChallengeMutation } from '../../../graphqlSdk'
 
-const MOOD_ICONS: Record<MoodEnum, any> = {
+export const MOOD_ICONS: Record<MoodEnum, any> = {
   NEGATIVE: 'emoticon-sad',
   NEUTRAL: 'emoticon-neutral',
   POSITIVE: 'emoticon-happy',
@@ -64,7 +65,7 @@ export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
               width: Dimensions.get('window').width / 1,
               resizeMode: 'contain',
               position: 'absolute',
-              top: -350,
+              top: -250,
               left: -100,
               height: 500,
               transform: [{ rotateZ: '180deg' }],
@@ -76,7 +77,7 @@ export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
               color: '#FFC342',
               fontFamily: 'AbrilFatface-Regular',
               marginBottom: 16,
-              marginTop: 100,
+              marginTop: 150,
               textAlign: 'center',
             }}
           >
@@ -124,9 +125,13 @@ export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
             onChangeText={setNote}
           />
         </KeyboardAvoidingView>
-        <Button status="warning" onPress={onCompleteChallenge} disabled={loading}>
-          Submit
-        </Button>
+        <View style={{ marginBottom: spacing[3], height: 40 }}>
+          {selectedMood && (
+            <Button status="warning" onPress={onCompleteChallenge} disabled={loading}>
+              Submit
+            </Button>
+          )}
+        </View>
       </SafeAreaView>
     </Layout>
   )

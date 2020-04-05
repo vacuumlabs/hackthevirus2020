@@ -29,7 +29,6 @@ export const LoginScreen: React.FC = () => {
       try {
         const userId = await AsyncStorage.getItem(USER_ID_STORAGE_KEY)
         if (userId) {
-          console.log('ASYNC', userId)
           setUserId(userId)
         }
         setFinishedLoadingUser(true)
@@ -43,7 +42,6 @@ export const LoginScreen: React.FC = () => {
   const registerUser = useCallback(() => {
     async function doRegistration() {
       const uuid = v4()
-      console.log(uuid)
       try {
         console.log('REGISTERING USER', uuid, username)
         const { data } = await createUser({ variables: { user_id: uuid, username } })
