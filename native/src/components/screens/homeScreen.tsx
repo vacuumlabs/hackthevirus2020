@@ -1,4 +1,5 @@
 import { ChallengeCard } from '@components/ui/ChallengeCard'
+import { spacing } from '@components/ui/constants'
 import { ChallengeCategoryCard } from '@components/ui/ChallengeCategoryCard'
 import { Layout, Text } from '@ui-kitten/components'
 import { default as React } from 'react'
@@ -43,13 +44,16 @@ export const HomeScreen: React.FC = () => {
     <Layout style={{ flex: 1 }} level="1">
       <Layout level="3">
         <SafeAreaView>
-          <Text category="h3" style={{ marginLeft: 16, marginBottom: 16, marginTop: 32 }}>
+          <Text
+            category="h3"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[6] }}
+          >
             Your challenges
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {acceptedChallenges.map(challengeAssignment => (
               <ChallengeCard
@@ -63,13 +67,16 @@ export const HomeScreen: React.FC = () => {
       </Layout>
       <ScrollView>
         <Layout level="1">
-          <Text category="h6" style={{ marginLeft: 16, marginBottom: 16, marginTop: 24 }}>
+          <Text
+            category="h6"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+          >
             Find a new challenge
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {categoriesQuery.data.category.map(category => (
               <ChallengeCategoryCard
@@ -80,13 +87,16 @@ export const HomeScreen: React.FC = () => {
             ))}
           </ScrollView>
 
-          <Text category="h6" style={{ marginLeft: 16, marginBottom: 16, marginTop: 24 }}>
+          <Text
+            category="h6"
+            style={{ marginLeft: spacing[4], marginBottom: spacing[4], marginTop: spacing[5] }}
+          >
             See your previous challenges
           </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
+            contentContainerStyle={{ paddingHorizontal: spacing[3] }}
           >
             {completedChalleges.map(challengeAssignment => (
               <ChallengeCard
