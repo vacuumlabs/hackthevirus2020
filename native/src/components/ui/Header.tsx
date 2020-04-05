@@ -27,7 +27,11 @@ export const Header: React.FC<Props> = ({ title, style }) => {
           color={theme['color-primary-500']}
         />
       </TouchableOpacity>
-      <Text category="h3" status="primary" style={{ maxWidth: 300, fontFamily: 'OpenSans-Bold' }}>
+      <Text
+        category="h3"
+        status="primary"
+        style={{ maxWidth: 300, fontFamily: 'AbrilFatface-Regular' }}
+      >
         {title}
       </Text>
     </Layout>

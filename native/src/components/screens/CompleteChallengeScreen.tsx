@@ -74,7 +74,7 @@ export const CompleteChallengeScreen: React.FC<Props> = ({ route }) => {
             category="h4"
             style={{
               color: '#FFC342',
-              fontFamily: 'OpenSans-Bold',
+              fontFamily: 'AbrilFatface-Regular',
               marginBottom: 16,
               marginTop: 100,
               textAlign: 'center',

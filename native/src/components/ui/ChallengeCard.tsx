@@ -48,7 +48,7 @@ const ChallengeCardComponent: React.FC<Props> = ({
         }}
         onPress={navigateToChallenge}
       >
-        <Text category="p1" status="control">
+        <Text category="p1" style={{ fontFamily: 'OpenSans-Bold' }} status="control">
           {name}
         </Text>
       </Card>

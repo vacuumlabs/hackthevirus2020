@@ -1,11 +1,13 @@
-import { ApolloProvider } from '@apollo/react-hooks'
-import { RootNavigator } from '@components/navigation/RootNavigator'
-import { light as lightTheme, mapping } from '@eva-design/eva'
-import { ApplicationProvider } from '@ui-kitten/components'
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
+
+import { ApolloProvider } from '@apollo/react-hooks'
+import { RootNavigator } from '@components/navigation/RootNavigator'
+import { light as lightTheme, mapping } from '@eva-design/eva'
+import { ApplicationProvider } from '@ui-kitten/components'
+
 import { default as customMapping } from './custom-mapping.json'
 import { default as appTheme } from './custom-theme.json'
 import { client } from './gql'
@@ -26,6 +28,7 @@ export default function App() {
             'OpenSans-LightItalic': require('./assets/fonts/OpenSans-LightItalic.ttf'),
             'OpenSans-Italic': require('./assets/fonts/OpenSans-Italic.ttf'),
             'OpenSans-BoldItalic': require('./assets/fonts/OpenSans-BoldItalic.ttf'),
+            'AbrilFatface-Regular': require('./assets/fonts/AbrilFatface-Regular.ttf'),
           })
         }
         onFinish={() => setFontsLoaded(true)}

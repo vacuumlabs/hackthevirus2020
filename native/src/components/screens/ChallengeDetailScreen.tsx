@@ -83,7 +83,7 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
     challenge_by_pk: { name, description, challenge_assignments },
   } = data
 
-  const assignment = challenge_assignments[0]
+  const assignment = challenge_assignments[0] || undefined
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -108,35 +108,37 @@ export const DetailScreen: React.FC<Props> = ({ route }) => {
               marginRight: 20,
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('TakePhoto', { assignmentId: assignment.id })
-              }}
-              style={{ flex: 1 }}
-            >
-              {assignment.attachment ? (
-                <Image
-                  style={{
-                    height: photoDimensions.height,
-                    width: photoDimensions.width,
-                    borderRadius: 12,
-                  }}
-                  source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
-                />
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: 'rgba(230, 230, 230, 0.6)',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 12,
-                  }}
-                >
-                  <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
-                </View>
-              )}
-            </TouchableOpacity>
+            {assignment && (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('TakePhoto', { assignmentId: assignment.id })
+                }}
+                style={{ flex: 1 }}
+              >
+                {assignment.attachment ? (
+                  <Image
+                    style={{
+                      height: photoDimensions.height,
+                      width: photoDimensions.width,
+                      borderRadius: 12,
+                    }}
+                    source={{ uri: `data:image/jpeg;base64,${assignment.attachment}` }}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(230, 230, 230, 0.6)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 12,
+                    }}
+                  >
+                    <Text style={{ maxWidth: 40, textAlign: 'center' }}>Add your story</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            )}
           </View>
           <Text appearance="alternative" style={{ fontSize: 18, fontFamily: 'OpenSans-Bold' }}>
             {description}
