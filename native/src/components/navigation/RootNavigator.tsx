@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 
 import {
@@ -17,8 +17,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { useTheme } from '@ui-kitten/components'
 
 import { useGlobalState } from '../../state'
+import { LoadingScreen } from '@components/screens/LoadingScreen'
 
 export type RootNavigatorParamList = {
+  Loading: undefined
   Login: undefined
   Root: undefined
   CompleteChallenge: { assignmentId: string }
@@ -79,11 +81,17 @@ const TabNavigator: React.FC = () => {
 }
 
 export const RootNavigator: React.FC = () => {
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    // TODO continue here
+  }, [])
   const [userId] = useGlobalState('userId')
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Root" headerMode="none">
-        {userId === undefined ? (
+        {loading ? (
+          <RootStack.Screen name="Loading" component={LoadingScreen} />
+        ) : userId === undefined ? (
           <RootStack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>

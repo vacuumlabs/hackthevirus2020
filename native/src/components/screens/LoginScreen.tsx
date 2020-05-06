@@ -1,117 +1,89 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import {
-  AsyncStorage,
-  Dimensions,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-} from 'react-native'
-import { v4 } from 'uuid'
+import React, { useCallback, useState, useGlobal } from 'reactn'
+import { Alert, StyleSheet, View } from 'react-native'
+import { AuthSession } from 'expo'
+import { setItemAsync } from 'expo-secure-store'
+import * as Random from 'expo-random'
+import jwtDecode from 'jwt-decode'
 
 import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
 
-import { useCreateUserMutation } from '../../../graphqlSdk'
-import { useGlobalState } from '../../state'
+const auth0ClientId = 'defV5g356Vp5OideZtmLxs7VzkXkSTIT'
+const auth0Domain = 'https://bearwithlife.eu.auth0.com'
 
-const USER_ID_STORAGE_KEY = '@user_id'
-
-export const LoginScreen: React.FC = () => {
-  const [finishedLoadingUser, setFinishedLoadingUser] = useState(false)
-  const [username, setUsername] = useState('')
-
-  const [userId, setUserId] = useGlobalState('userId')
-
-  const [createUser, { loading }] = useCreateUserMutation()
-
-  const theme = useTheme()
-
-  useEffect(() => {
-    async function getUserId() {
-      try {
-        const userId = await AsyncStorage.getItem(USER_ID_STORAGE_KEY)
-        if (userId) {
-          setUserId(userId)
-        }
-        setFinishedLoadingUser(true)
-      } catch {
-        setFinishedLoadingUser(true)
-      }
+export const LoginScreen = () => {
+  const [name, setName] = useState('')
+  const [token, setToken] = useGlobal('token')
+  const handleResponse = useCallback(response => {
+    if (response.error) {
+      Alert.alert('Authentication error', response.error_description || 'something went wrong')
+      return
     }
-    getUserId()
+
+    // Retrieve the JWT token and decode it
+    const jwtToken = response.id_token
+    const decoded = jwtDecode(jwtToken)
+    setItemAsync('token', jwtToken)
+    setName(decoded.name)
   }, [])
 
-  const registerUser = useCallback(() => {
-    async function doRegistration() {
-      const uuid = v4()
-      try {
-        console.log('REGISTERING USER', uuid, username)
-        const { data } = await createUser({ variables: { user_id: uuid, username } })
-        if (data.insert_user.affected_rows > 0) {
-          await AsyncStorage.setItem(USER_ID_STORAGE_KEY, uuid)
-          setUserId(uuid)
-        }
-      } catch {
-        // do nothing
-      }
-    }
-    doRegistration()
-  }, [username])
+  const login = useCallback(async () => {
+    // Retrieve the redirect URL, add this to the callback URL list
+    // of your Auth0 application.
+    const redirectUrl = AuthSession.getRedirectUrl()
+    console.log(`Redirect URL: ${redirectUrl}`)
 
-  if (!finishedLoadingUser) {
-    return <Text>Loading...</Text>
-  }
+    // Structure the auth parameters and URL
+    const queryParams = toQueryString({
+      client_id: auth0ClientId,
+      redirect_uri: redirectUrl,
+      response_type: 'id_token', // id_token will return a JWT token
+      scope: 'openid profile', // retrieve the user's profile
+      nonce: (await Random.getRandomBytesAsync(12)).toString(), // ideally, this will be a random value
+    })
+    const authUrl = `${auth0Domain}/authorize` + queryParams
+
+    // Perform the authentication
+    const response = await AuthSession.startAsync({ authUrl })
+    console.log('Authentication response', response)
+
+    if (response.type === 'success') {
+      handleResponse(response.params)
+    }
+  }, [])
 
   return (
-    <Layout style={{ flex: 1, paddingHorizontal: 24 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'position' : 'height'}
-          style={{
-            flex: 1,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            category="h4"
-            style={{
-              color: theme['color-primary-500'],
-              fontFamily: 'AbrilFatface-Regular',
-              marginBottom: 16,
-              marginTop: 150,
-              textAlign: 'center',
-            }}
-          >
-            Hooray!
-          </Text>
-          <Input
-            style={{
-              marginTop: 24,
-              marginBottom: 'auto',
-              marginHorizontal: 24,
-              minWidth: 200,
-            }}
-            placeholder="Choose username"
-            value={username}
-            onChangeText={setUsername}
-          />
-        </KeyboardAvoidingView>
-        <Button onPress={registerUser} disabled={loading}>
-          Register
-        </Button>
-        <Image
-          source={require('../../../assets/bear.png')}
-          style={{
-            width: Dimensions.get('window').width / 1,
-            resizeMode: 'contain',
-            position: 'absolute',
-            bottom: -50,
-            left: -200,
-            height: 500,
-            zIndex: -1,
-          }}
-        />
-      </SafeAreaView>
-    </Layout>
+    <View style={styles.container}>
+      {name ? (
+        <Text style={styles.title}>You are logged in, {name}!</Text>
+      ) : (
+        <Button onPress={login}>Log in</Button>
+      )}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 40,
+  },
+})
+
+/**
+ * Converts an object to a query string.
+ */
+function toQueryString(params) {
+  return (
+    '?' +
+    Object.entries(params)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&')
   )
 }
