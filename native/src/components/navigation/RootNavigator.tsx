@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
 
 import {
   CategoryScreen,
@@ -82,16 +83,27 @@ const TabNavigator: React.FC = () => {
 
 export const RootNavigator: React.FC = () => {
   const [loading, setLoading] = useState(true)
+  const [userId, setUserId] = useGlobalState('userId')
+  const [token, setToken] = useGlobalState('token')
+
+  console.log(`Root: ${loading} ${userId} ${token}`)
+
+  if ((userId || !token) && loading) {
+    setLoading(false)
+  }
+
   useEffect(() => {
-    // TODO continue here
-  }, [])
-  const [userId] = useGlobalState('userId')
+    /*     deleteItemAsync('token')
+    deleteItemAsync('userId')
+    setUserId(undefined) */
+  })
+
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Root" headerMode="none">
         {loading ? (
           <RootStack.Screen name="Loading" component={LoadingScreen} />
-        ) : userId === undefined ? (
+        ) : userId == undefined ? (
           <RootStack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>

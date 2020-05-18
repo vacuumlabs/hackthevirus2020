@@ -1,8 +1,9 @@
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'react-native'
-import { useGlobalState } from 'state'
+import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
+import jwtDecode from 'jwt-decode'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 import { RootNavigator } from '@components/navigation/RootNavigator'
@@ -12,13 +13,37 @@ import { ApplicationProvider } from '@ui-kitten/components'
 import { default as customMapping } from './custom-mapping.json'
 import { default as appTheme } from './custom-theme.json'
 import { getClient } from './gql'
+import { useGlobalState } from 'state'
 
 const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
 
-  const [userId] = useGlobalState('userId')
+  const [userId, setUserId] = useGlobalState('userId')
+  const [token, setToken] = useGlobalState('token')
+  useEffect(() => {
+    getItemAsync('token').then(token => {
+      let decoded
+      try {
+        decoded = jwtDecode(token)
+      } catch {
+        deleteItemAsync('token')
+        deleteItemAsync('userId')
+        return
+      }
+
+      if (Date.now() > decoded.exp * 1000) {
+        // token is expired
+        console.log(`Deleting expired token: ${token}`)
+        deleteItemAsync('token')
+        deleteItemAsync('userId')
+      } else {
+        setToken(token)
+        setUserId(decoded.sub)
+      }
+    })
+  })
 
   if (!fontsLoaded) {
     return (
@@ -39,14 +64,17 @@ export default function App() {
     )
   }
 
-  return (
-    <ApolloProvider client={getClient(userId)}>
-      {/* 
-      // @ts-ignore */}
-      <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
-        <StatusBar barStyle="dark-content" />
-        <RootNavigator />
-      </ApplicationProvider>
-    </ApolloProvider>
+  const applicationProvider = (
+    // @ts-ignore
+    <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
+      <StatusBar barStyle="dark-content" />
+      <RootNavigator />
+    </ApplicationProvider>
+  )
+
+  return token ? (
+    <ApolloProvider client={getClient(token)}>{applicationProvider}</ApolloProvider>
+  ) : (
+    applicationProvider
   )
 }

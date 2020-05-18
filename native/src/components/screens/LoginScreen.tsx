@@ -1,18 +1,20 @@
-import React, { useCallback, useState, useGlobal } from 'reactn'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
 import { AuthSession } from 'expo'
 import { setItemAsync } from 'expo-secure-store'
 import * as Random from 'expo-random'
 import jwtDecode from 'jwt-decode'
+import { useGlobalState } from '../../state'
 
-import { Button, Input, Layout, Text, useTheme } from '@ui-kitten/components'
+import { Button, Text } from '@ui-kitten/components'
 
 const auth0ClientId = 'defV5g356Vp5OideZtmLxs7VzkXkSTIT'
 const auth0Domain = 'https://bearwithlife.eu.auth0.com'
 
 export const LoginScreen = () => {
   const [name, setName] = useState('')
-  const [token, setToken] = useGlobal('token')
+  const [userId, setUserId] = useGlobalState('userId')
+  const [token, setToken] = useGlobalState('token')
   const handleResponse = useCallback(response => {
     if (response.error) {
       Alert.alert('Authentication error', response.error_description || 'something went wrong')
@@ -22,8 +24,13 @@ export const LoginScreen = () => {
     // Retrieve the JWT token and decode it
     const jwtToken = response.id_token
     const decoded = jwtDecode(jwtToken)
-    setItemAsync('token', jwtToken)
+    const userId = decoded.sub
+    const token = response.id_token
+
     setName(decoded.name)
+    setItemAsync('token', token)
+    setToken(token)
+    setUserId(userId)
   }, [])
 
   const login = useCallback(async () => {
@@ -36,7 +43,7 @@ export const LoginScreen = () => {
     const queryParams = toQueryString({
       client_id: auth0ClientId,
       redirect_uri: redirectUrl,
-      response_type: 'id_token', // id_token will return a JWT token
+      response_type: 'id_token token', // id_token will return a JWT token
       scope: 'openid profile', // retrieve the user's profile
       nonce: (await Random.getRandomBytesAsync(12)).toString(), // ideally, this will be a random value
     })

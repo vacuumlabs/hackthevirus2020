@@ -272,7 +272,7 @@ export type Challenge_Assignment = {
   mood?: Maybe<Mood_Enum>;
   note?: Maybe<Scalars['String']>;
   user: User;
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 export type Challenge_Assignment_Aggregate = {
@@ -318,7 +318,7 @@ export type Challenge_Assignment_Bool_Exp = {
   mood?: Maybe<Mood_Enum_Comparison_Exp>;
   note?: Maybe<String_Comparison_Exp>;
   user?: Maybe<User_Bool_Exp>;
-  user_id?: Maybe<Uuid_Comparison_Exp>;
+  user_id?: Maybe<String_Comparison_Exp>;
 };
 
 export enum Challenge_Assignment_Constraint {
@@ -335,7 +335,7 @@ export type Challenge_Assignment_Insert_Input = {
   mood?: Maybe<Mood_Enum>;
   note?: Maybe<Scalars['String']>;
   user?: Maybe<User_Obj_Rel_Insert_Input>;
-  user_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
 };
 
 export type Challenge_Assignment_Max_Fields = {
@@ -344,6 +344,7 @@ export type Challenge_Assignment_Max_Fields = {
   attachment?: Maybe<Scalars['String']>;
   completed_at?: Maybe<Scalars['timestamptz']>;
   note?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
 };
 
 export type Challenge_Assignment_Max_Order_By = {
@@ -351,6 +352,7 @@ export type Challenge_Assignment_Max_Order_By = {
   attachment?: Maybe<Order_By>;
   completed_at?: Maybe<Order_By>;
   note?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
 };
 
 export type Challenge_Assignment_Min_Fields = {
@@ -359,6 +361,7 @@ export type Challenge_Assignment_Min_Fields = {
   attachment?: Maybe<Scalars['String']>;
   completed_at?: Maybe<Scalars['timestamptz']>;
   note?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
 };
 
 export type Challenge_Assignment_Min_Order_By = {
@@ -366,6 +369,7 @@ export type Challenge_Assignment_Min_Order_By = {
   attachment?: Maybe<Order_By>;
   completed_at?: Maybe<Order_By>;
   note?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
 };
 
 export type Challenge_Assignment_Mutation_Response = {
@@ -417,7 +421,7 @@ export type Challenge_Assignment_Set_Input = {
   id?: Maybe<Scalars['uuid']>;
   mood?: Maybe<Mood_Enum>;
   note?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
 };
 
 export enum Challenge_Assignment_Update_Column {
@@ -613,7 +617,7 @@ export type Member = {
   team: Team;
   team_id: Scalars['uuid'];
   user: User;
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 export type Member_Aggregate = {
@@ -625,6 +629,8 @@ export type Member_Aggregate = {
 export type Member_Aggregate_Fields = {
    __typename?: 'member_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Member_Max_Fields>;
+  min?: Maybe<Member_Min_Fields>;
 };
 
 
@@ -635,6 +641,8 @@ export type Member_Aggregate_FieldsCountArgs = {
 
 export type Member_Aggregate_Order_By = {
   count?: Maybe<Order_By>;
+  max?: Maybe<Member_Max_Order_By>;
+  min?: Maybe<Member_Min_Order_By>;
 };
 
 export type Member_Arr_Rel_Insert_Input = {
@@ -649,7 +657,7 @@ export type Member_Bool_Exp = {
   team?: Maybe<Team_Bool_Exp>;
   team_id?: Maybe<Uuid_Comparison_Exp>;
   user?: Maybe<User_Bool_Exp>;
-  user_id?: Maybe<Uuid_Comparison_Exp>;
+  user_id?: Maybe<String_Comparison_Exp>;
 };
 
 export enum Member_Constraint {
@@ -662,7 +670,25 @@ export type Member_Insert_Input = {
   team?: Maybe<Team_Obj_Rel_Insert_Input>;
   team_id?: Maybe<Scalars['uuid']>;
   user?: Maybe<User_Obj_Rel_Insert_Input>;
-  user_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+export type Member_Max_Fields = {
+   __typename?: 'member_max_fields';
+  user_id?: Maybe<Scalars['String']>;
+};
+
+export type Member_Max_Order_By = {
+  user_id?: Maybe<Order_By>;
+};
+
+export type Member_Min_Fields = {
+   __typename?: 'member_min_fields';
+  user_id?: Maybe<Scalars['String']>;
+};
+
+export type Member_Min_Order_By = {
+  user_id?: Maybe<Order_By>;
 };
 
 export type Member_Mutation_Response = {
@@ -696,7 +722,7 @@ export enum Member_Select_Column {
 
 export type Member_Set_Input = {
   team_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
 };
 
 export enum Member_Update_Column {
@@ -1088,7 +1114,7 @@ export type Query_RootMember_AggregateArgs = {
 
 export type Query_RootMember_By_PkArgs = {
   team_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1157,7 +1183,7 @@ export type Query_RootUser_AggregateArgs = {
 
 
 export type Query_RootUser_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 export type Subscription_Root = {
@@ -1275,7 +1301,7 @@ export type Subscription_RootMember_AggregateArgs = {
 
 export type Subscription_RootMember_By_PkArgs = {
   team_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1344,7 +1370,7 @@ export type Subscription_RootUser_AggregateArgs = {
 
 
 export type Subscription_RootUser_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 export type Team = {
@@ -1355,7 +1381,7 @@ export type Team = {
   members_aggregate: Member_Aggregate;
   name: Scalars['String'];
   owner: User;
-  owner_id: Scalars['uuid'];
+  owner_id: Scalars['String'];
 };
 
 
@@ -1415,7 +1441,7 @@ export type Team_Bool_Exp = {
   members?: Maybe<Member_Bool_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   owner?: Maybe<User_Bool_Exp>;
-  owner_id?: Maybe<Uuid_Comparison_Exp>;
+  owner_id?: Maybe<String_Comparison_Exp>;
 };
 
 export enum Team_Constraint {
@@ -1430,29 +1456,33 @@ export type Team_Insert_Input = {
   members?: Maybe<Member_Arr_Rel_Insert_Input>;
   name?: Maybe<Scalars['String']>;
   owner?: Maybe<User_Obj_Rel_Insert_Input>;
-  owner_id?: Maybe<Scalars['uuid']>;
+  owner_id?: Maybe<Scalars['String']>;
 };
 
 export type Team_Max_Fields = {
    __typename?: 'team_max_fields';
   code?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
 };
 
 export type Team_Max_Order_By = {
   code?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
 };
 
 export type Team_Min_Fields = {
    __typename?: 'team_min_fields';
   code?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
 };
 
 export type Team_Min_Order_By = {
   code?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
 };
 
 export type Team_Mutation_Response = {
@@ -1492,7 +1522,7 @@ export type Team_Set_Input = {
   code?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['uuid']>;
+  owner_id?: Maybe<Scalars['String']>;
 };
 
 export enum Team_Update_Column {
@@ -1520,7 +1550,7 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   challenge_completitions: Array<Challenge_Assignment>;
   challenge_completitions_aggregate: Challenge_Assignment_Aggregate;
-  id: Scalars['uuid'];
+  id: Scalars['String'];
   membership?: Maybe<Member>;
   name: Scalars['String'];
   owned_team?: Maybe<Team>;
@@ -1580,20 +1610,21 @@ export type User_Bool_Exp = {
   _or?: Maybe<Array<Maybe<User_Bool_Exp>>>;
   avatar?: Maybe<String_Comparison_Exp>;
   challenge_completitions?: Maybe<Challenge_Assignment_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<String_Comparison_Exp>;
   membership?: Maybe<Member_Bool_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   owned_team?: Maybe<Team_Bool_Exp>;
 };
 
 export enum User_Constraint {
+  UserIdKey = 'user_id_key',
   UserPkey = 'user_pkey'
 }
 
 export type User_Insert_Input = {
   avatar?: Maybe<Scalars['String']>;
   challenge_completitions?: Maybe<Challenge_Assignment_Arr_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   membership?: Maybe<Member_Obj_Rel_Insert_Input>;
   name?: Maybe<Scalars['String']>;
   owned_team?: Maybe<Team_Obj_Rel_Insert_Input>;
@@ -1602,22 +1633,26 @@ export type User_Insert_Input = {
 export type User_Max_Fields = {
    __typename?: 'user_max_fields';
   avatar?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
 export type User_Max_Order_By = {
   avatar?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
 
 export type User_Min_Fields = {
    __typename?: 'user_min_fields';
   avatar?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
 export type User_Min_Order_By = {
   avatar?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
 
@@ -1655,7 +1690,7 @@ export enum User_Select_Column {
 
 export type User_Set_Input = {
   avatar?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -1680,7 +1715,7 @@ export type Uuid_Comparison_Exp = {
 
 export type AcceptChallengeMutationVariables = {
   challenge_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1722,23 +1757,9 @@ export type AddAttachmentMutation = (
   )> }
 );
 
-export type CreateUserMutationVariables = {
-  user_id: Scalars['uuid'];
-  username: Scalars['String'];
-};
-
-
-export type CreateUserMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_user?: Maybe<(
-    { __typename?: 'user_mutation_response' }
-    & Pick<User_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type ChallengeQueryVariables = {
   id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1755,7 +1776,7 @@ export type ChallengeQuery = (
 );
 
 export type AcceptedChallengesQueryVariables = {
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1771,7 +1792,7 @@ export type AcceptedChallengesQuery = (
 );
 
 export type CompletedChallengesQueryVariables = {
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1799,7 +1820,7 @@ export type ChallengeCategoriesQuery = (
 
 export type ChallengesByCategoryQueryVariables = {
   category: Scalars['String'];
-  user_id: Scalars['uuid'];
+  user_id: Scalars['String'];
 };
 
 
@@ -1816,7 +1837,7 @@ export type ChallengesByCategoryQuery = (
 
 
 export const AcceptChallengeDocument = gql`
-    mutation AcceptChallenge($challenge_id: uuid!, $user_id: uuid!) {
+    mutation AcceptChallenge($challenge_id: uuid!, $user_id: String!) {
   insert_challenge_assignment(objects: {challenge_id: $challenge_id, user_id: $user_id}) {
     affected_rows
   }
@@ -1934,47 +1955,8 @@ export function useAddAttachmentMutation(baseOptions?: ApolloReactHooks.Mutation
 export type AddAttachmentMutationHookResult = ReturnType<typeof useAddAttachmentMutation>;
 export type AddAttachmentMutationResult = ApolloReactCommon.MutationResult<AddAttachmentMutation>;
 export type AddAttachmentMutationOptions = ApolloReactCommon.BaseMutationOptions<AddAttachmentMutation, AddAttachmentMutationVariables>;
-export const CreateUserDocument = gql`
-    mutation CreateUser($user_id: uuid!, $username: String!) {
-  insert_user(objects: {id: $user_id, name: $username}) {
-    affected_rows
-  }
-}
-    `;
-export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
-export type CreateUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateUserMutation, CreateUserMutationVariables>, 'mutation'>;
-
-    export const CreateUserComponent = (props: CreateUserComponentProps) => (
-      <ApolloReactComponents.Mutation<CreateUserMutation, CreateUserMutationVariables> mutation={CreateUserDocument} {...props} />
-    );
-    
-
-/**
- * __useCreateUserMutation__
- *
- * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
- *   variables: {
- *      user_id: // value for 'user_id'
- *      username: // value for 'username'
- *   },
- * });
- */
-export function useCreateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, baseOptions);
-      }
-export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
-export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const ChallengeDocument = gql`
-    query Challenge($id: uuid!, $user_id: uuid!) {
+    query Challenge($id: uuid!, $user_id: String!) {
   challenge_by_pk(id: $id) {
     id
     name
@@ -2025,7 +2007,7 @@ export type ChallengeQueryHookResult = ReturnType<typeof useChallengeQuery>;
 export type ChallengeLazyQueryHookResult = ReturnType<typeof useChallengeLazyQuery>;
 export type ChallengeQueryResult = ApolloReactCommon.QueryResult<ChallengeQuery, ChallengeQueryVariables>;
 export const AcceptedChallengesDocument = gql`
-    query AcceptedChallenges($user_id: uuid!) {
+    query AcceptedChallenges($user_id: String!) {
   challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {assigned_at: desc}) {
     challenge {
       id
@@ -2069,7 +2051,7 @@ export type AcceptedChallengesQueryHookResult = ReturnType<typeof useAcceptedCha
 export type AcceptedChallengesLazyQueryHookResult = ReturnType<typeof useAcceptedChallengesLazyQuery>;
 export type AcceptedChallengesQueryResult = ApolloReactCommon.QueryResult<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>;
 export const CompletedChallengesDocument = gql`
-    query CompletedChallenges($user_id: uuid!) {
+    query CompletedChallenges($user_id: String!) {
   challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {completed_at: desc}) {
     challenge {
       id
@@ -2151,7 +2133,7 @@ export type ChallengeCategoriesQueryHookResult = ReturnType<typeof useChallengeC
 export type ChallengeCategoriesLazyQueryHookResult = ReturnType<typeof useChallengeCategoriesLazyQuery>;
 export type ChallengeCategoriesQueryResult = ApolloReactCommon.QueryResult<ChallengeCategoriesQuery, ChallengeCategoriesQueryVariables>;
 export const ChallengesByCategoryDocument = gql`
-    query ChallengesByCategory($category: String!, $user_id: uuid!) {
+    query ChallengesByCategory($category: String!, $user_id: String!) {
   category_by_pk(value: $category) {
     challenges(where: {_not: {challenge_assignments: {user_id: {_eq: $user_id}}}}) {
       id
