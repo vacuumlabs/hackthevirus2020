@@ -1,5 +1,5 @@
-mutation AcceptChallenge($challenge_id: uuid!, $user_id: String!) {
-  insert_challenge_assignment(objects: { challenge_id: $challenge_id, user_id: $user_id }) {
+mutation AcceptChallenge($challenge_id: uuid!) {
+  insert_challenge_assignment(objects: { challenge_id: $challenge_id }) {
     affected_rows
   }
 }

@@ -1715,7 +1715,6 @@ export type Uuid_Comparison_Exp = {
 
 export type AcceptChallengeMutationVariables = {
   challenge_id: Scalars['uuid'];
-  user_id: Scalars['String'];
 };
 
 
@@ -1759,7 +1758,6 @@ export type AddAttachmentMutation = (
 
 export type ChallengeQueryVariables = {
   id: Scalars['uuid'];
-  user_id: Scalars['String'];
 };
 
 
@@ -1775,9 +1773,7 @@ export type ChallengeQuery = (
   )> }
 );
 
-export type AcceptedChallengesQueryVariables = {
-  user_id: Scalars['String'];
-};
+export type AcceptedChallengesQueryVariables = {};
 
 
 export type AcceptedChallengesQuery = (
@@ -1791,9 +1787,7 @@ export type AcceptedChallengesQuery = (
   )> }
 );
 
-export type CompletedChallengesQueryVariables = {
-  user_id: Scalars['String'];
-};
+export type CompletedChallengesQueryVariables = {};
 
 
 export type CompletedChallengesQuery = (
@@ -1837,8 +1831,8 @@ export type ChallengesByCategoryQuery = (
 
 
 export const AcceptChallengeDocument = gql`
-    mutation AcceptChallenge($challenge_id: uuid!, $user_id: String!) {
-  insert_challenge_assignment(objects: {challenge_id: $challenge_id, user_id: $user_id}) {
+    mutation AcceptChallenge($challenge_id: uuid!) {
+  insert_challenge_assignment(objects: {challenge_id: $challenge_id}) {
     affected_rows
   }
 }
@@ -1865,7 +1859,6 @@ export type AcceptChallengeComponentProps = Omit<ApolloReactComponents.MutationC
  * const [acceptChallengeMutation, { data, loading, error }] = useAcceptChallengeMutation({
  *   variables: {
  *      challenge_id: // value for 'challenge_id'
- *      user_id: // value for 'user_id'
  *   },
  * });
  */
@@ -1956,13 +1949,13 @@ export type AddAttachmentMutationHookResult = ReturnType<typeof useAddAttachment
 export type AddAttachmentMutationResult = ApolloReactCommon.MutationResult<AddAttachmentMutation>;
 export type AddAttachmentMutationOptions = ApolloReactCommon.BaseMutationOptions<AddAttachmentMutation, AddAttachmentMutationVariables>;
 export const ChallengeDocument = gql`
-    query Challenge($id: uuid!, $user_id: String!) {
+    query Challenge($id: uuid!) {
   challenge_by_pk(id: $id) {
     id
     name
     category
     description
-    challenge_assignments(where: {user_id: {_eq: $user_id}}) {
+    challenge_assignments {
       id
       assigned_at
       completed_at
@@ -1993,7 +1986,6 @@ export type ChallengeComponentProps = Omit<ApolloReactComponents.QueryComponentO
  * const { data, loading, error } = useChallengeQuery({
  *   variables: {
  *      id: // value for 'id'
- *      user_id: // value for 'user_id'
  *   },
  * });
  */
@@ -2007,8 +1999,8 @@ export type ChallengeQueryHookResult = ReturnType<typeof useChallengeQuery>;
 export type ChallengeLazyQueryHookResult = ReturnType<typeof useChallengeLazyQuery>;
 export type ChallengeQueryResult = ApolloReactCommon.QueryResult<ChallengeQuery, ChallengeQueryVariables>;
 export const AcceptedChallengesDocument = gql`
-    query AcceptedChallenges($user_id: String!) {
-  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: true}}, order_by: {assigned_at: desc}) {
+    query AcceptedChallenges {
+  challenge_assignment(where: {completed_at: {_is_null: true}}, order_by: {assigned_at: desc}) {
     challenge {
       id
       category
@@ -2018,7 +2010,7 @@ export const AcceptedChallengesDocument = gql`
   }
 }
     `;
-export type AcceptedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>, 'query'> & ({ variables: AcceptedChallengesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type AcceptedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>, 'query'>;
 
     export const AcceptedChallengesComponent = (props: AcceptedChallengesComponentProps) => (
       <ApolloReactComponents.Query<AcceptedChallengesQuery, AcceptedChallengesQueryVariables> query={AcceptedChallengesDocument} {...props} />
@@ -2037,7 +2029,6 @@ export type AcceptedChallengesComponentProps = Omit<ApolloReactComponents.QueryC
  * @example
  * const { data, loading, error } = useAcceptedChallengesQuery({
  *   variables: {
- *      user_id: // value for 'user_id'
  *   },
  * });
  */
@@ -2051,8 +2042,8 @@ export type AcceptedChallengesQueryHookResult = ReturnType<typeof useAcceptedCha
 export type AcceptedChallengesLazyQueryHookResult = ReturnType<typeof useAcceptedChallengesLazyQuery>;
 export type AcceptedChallengesQueryResult = ApolloReactCommon.QueryResult<AcceptedChallengesQuery, AcceptedChallengesQueryVariables>;
 export const CompletedChallengesDocument = gql`
-    query CompletedChallenges($user_id: String!) {
-  challenge_assignment(where: {user_id: {_eq: $user_id}, completed_at: {_is_null: false}}, order_by: {completed_at: desc}) {
+    query CompletedChallenges {
+  challenge_assignment(where: {completed_at: {_is_null: false}}, order_by: {completed_at: desc}) {
     challenge {
       id
       category
@@ -2062,7 +2053,7 @@ export const CompletedChallengesDocument = gql`
   }
 }
     `;
-export type CompletedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CompletedChallengesQuery, CompletedChallengesQueryVariables>, 'query'> & ({ variables: CompletedChallengesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CompletedChallengesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CompletedChallengesQuery, CompletedChallengesQueryVariables>, 'query'>;
 
     export const CompletedChallengesComponent = (props: CompletedChallengesComponentProps) => (
       <ApolloReactComponents.Query<CompletedChallengesQuery, CompletedChallengesQueryVariables> query={CompletedChallengesDocument} {...props} />
@@ -2081,7 +2072,6 @@ export type CompletedChallengesComponentProps = Omit<ApolloReactComponents.Query
  * @example
  * const { data, loading, error } = useCompletedChallengesQuery({
  *   variables: {
- *      user_id: // value for 'user_id'
  *   },
  * });
  */

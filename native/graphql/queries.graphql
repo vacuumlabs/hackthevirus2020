@@ -1,10 +1,10 @@
-query Challenge($id: uuid!, $user_id: String!) {
+query Challenge($id: uuid!) {
   challenge_by_pk(id: $id) {
     id
     name
     category
     description
-    challenge_assignments(where: { user_id: { _eq: $user_id } }) {
+    challenge_assignments {
       id
       assigned_at
       completed_at
@@ -15,9 +15,9 @@ query Challenge($id: uuid!, $user_id: String!) {
   }
 }
 
-query AcceptedChallenges($user_id: String!) {
+query AcceptedChallenges {
   challenge_assignment(
-    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: true } }
+    where: { completed_at: { _is_null: true } }
     order_by: { assigned_at: desc }
   ) {
     challenge {
@@ -29,9 +29,9 @@ query AcceptedChallenges($user_id: String!) {
   }
 }
 
-query CompletedChallenges($user_id: String!) {
+query CompletedChallenges {
   challenge_assignment(
-    where: { user_id: { _eq: $user_id }, completed_at: { _is_null: false } }
+    where: { completed_at: { _is_null: false } }
     order_by: { completed_at: desc }
   ) {
     challenge {
