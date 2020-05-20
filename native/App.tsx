@@ -35,7 +35,6 @@ export default function App() {
 
       if (Date.now() > decoded.exp * 1000) {
         // token is expired
-        console.log(`Deleting expired token: ${token}`)
         deleteItemAsync('token')
         deleteItemAsync('userId')
       } else {

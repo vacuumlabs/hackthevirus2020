@@ -86,17 +86,9 @@ export const RootNavigator: React.FC = () => {
   const [userId, setUserId] = useGlobalState('userId')
   const [token, setToken] = useGlobalState('token')
 
-  console.log(`Root: ${loading} ${userId} ${token}`)
-
   if ((userId || !token) && loading) {
     setLoading(false)
   }
-
-  useEffect(() => {
-    /*     deleteItemAsync('token')
-    deleteItemAsync('userId')
-    setUserId(undefined) */
-  })
 
   return (
     <NavigationContainer>
