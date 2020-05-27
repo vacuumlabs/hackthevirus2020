@@ -10,6 +10,7 @@ npm-debug.*
 web-build/
 web-report/
 *.ipa
+yarn-error.log
 
 # macOS
 .DS_Store

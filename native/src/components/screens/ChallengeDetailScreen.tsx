@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
 import React, { useCallback } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import { useGlobalState } from 'state'
 
 import { StackParamList } from '@components/navigation/RootNavigator'
 import { spacing } from '@components/ui/constants'
@@ -32,18 +31,17 @@ const photoOffset = 30
 const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId }) => {
   const [acceptChallenge, { loading }] = useAcceptChallengeMutation()
   const navigation = useNavigation()
-  const [userId] = useGlobalState('userId')
 
   const onAcceptChallenge = useCallback(() => {
     async function doAccept() {
       await acceptChallenge({
-        variables: { challenge_id: challengeId, user_id: userId },
+        variables: { challenge_id: challengeId },
         refetchQueries: ['AcceptedChallenges', 'ChallengesByCategory'],
       })
       navigation.navigate('Home')
     }
     doAccept()
-  }, [acceptChallenge, challengeId, navigation, userId])
+  }, [acceptChallenge, challengeId, navigation])
 
   const onCompleteChallenge = useCallback(() => {
     navigation.navigate('CompleteChallenge', { assignmentId: assignments[0].id })
@@ -69,11 +67,10 @@ const ActionButton: React.FC<ActionButtonProps> = ({ assignments, challengeId })
 export const DetailScreen: React.FC<Props> = ({ route }) => {
   const theme = useTheme()
   const navigation = useNavigation()
-  const [userId] = useGlobalState('userId')
 
   const { id } = route.params
   const { data, loading, error } = useChallengeQuery({
-    variables: { id, user_id: userId },
+    variables: { id },
     fetchPolicy: 'cache-and-network',
   })
 

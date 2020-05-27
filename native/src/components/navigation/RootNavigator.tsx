@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
 
 import {
   CategoryScreen,
@@ -17,8 +18,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { useTheme } from '@ui-kitten/components'
 
 import { useGlobalState } from '../../state'
+import { LoadingScreen } from '@components/screens/LoadingScreen'
 
 export type RootNavigatorParamList = {
+  Loading: undefined
   Login: undefined
   Root: undefined
   CompleteChallenge: { assignmentId: string }
@@ -79,11 +82,20 @@ const TabNavigator: React.FC = () => {
 }
 
 export const RootNavigator: React.FC = () => {
-  const [userId] = useGlobalState('userId')
+  const [loading, setLoading] = useState(true)
+  const [userId, setUserId] = useGlobalState('userId')
+  const [token, setToken] = useGlobalState('token')
+
+  if ((userId || !token) && loading) {
+    setLoading(false)
+  }
+
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Root" headerMode="none">
-        {userId === undefined ? (
+        {loading ? (
+          <RootStack.Screen name="Loading" component={LoadingScreen} />
+        ) : userId == undefined ? (
           <RootStack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>

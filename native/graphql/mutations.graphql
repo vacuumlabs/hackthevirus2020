@@ -1,5 +1,5 @@
-mutation AcceptChallenge($challenge_id: uuid!, $user_id: uuid!) {
-  insert_challenge_assignment(objects: { challenge_id: $challenge_id, user_id: $user_id }) {
+mutation AcceptChallenge($challenge_id: uuid!) {
+  insert_challenge_assignment(objects: { challenge_id: $challenge_id }) {
     affected_rows
   }
 }
@@ -23,12 +23,6 @@ mutation AddAttachment($assignment_id: uuid!, $attachment: String!) {
     where: { id: { _eq: $assignment_id } }
     _set: { attachment: $attachment }
   ) {
-    affected_rows
-  }
-}
-
-mutation CreateUser($user_id: uuid!, $username: String!) {
-  insert_user(objects: { id: $user_id, name: $username }) {
     affected_rows
   }
 }

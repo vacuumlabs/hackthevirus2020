@@ -1,7 +1,6 @@
 import { default as React } from 'react'
 import { Dimensions, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useGlobalState } from 'state'
 
 import { ChallengeCard } from '@components/ui/ChallengeCard'
 import { ChallengeCategoryCard } from '@components/ui/ChallengeCategoryCard'
@@ -15,10 +14,8 @@ import {
 } from '../../../graphqlSdk'
 
 export const HomeScreen: React.FC = () => {
-  const [userId] = useGlobalState('userId')
-
-  const acceptedChallengesQuery = useAcceptedChallengesQuery({ variables: { user_id: userId } })
-  const completedChallengesQuery = useCompletedChallengesQuery({ variables: { user_id: userId } })
+  const acceptedChallengesQuery = useAcceptedChallengesQuery()
+  const completedChallengesQuery = useCompletedChallengesQuery()
   const categoriesQuery = useChallengeCategoriesQuery()
 
   if (
