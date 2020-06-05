@@ -1756,6 +1756,34 @@ export type AddAttachmentMutation = (
   )> }
 );
 
+export type JoinTeamMutationVariables = {
+  team_id: Scalars['uuid'];
+};
+
+
+export type JoinTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_member?: Maybe<(
+    { __typename?: 'member_mutation_response' }
+    & Pick<Member_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type AddTeamMutationVariables = {
+  code: Scalars['String'];
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+};
+
+
+export type AddTeamMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_team?: Maybe<(
+    { __typename?: 'team_mutation_response' }
+    & Pick<Team_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type ChallengeQueryVariables = {
   id: Scalars['uuid'];
 };
@@ -1826,6 +1854,39 @@ export type ChallengesByCategoryQuery = (
       { __typename?: 'challenge' }
       & Pick<Challenge, 'id' | 'name' | 'description'>
     )> }
+  )> }
+);
+
+export type TeamByCodeQueryVariables = {
+  code: Scalars['String'];
+};
+
+
+export type TeamByCodeQuery = (
+  { __typename?: 'query_root' }
+  & { team: Array<(
+    { __typename?: 'team' }
+    & Pick<Team, 'id'>
+  )> }
+);
+
+export type MyTeamQueryVariables = {};
+
+
+export type MyTeamQuery = (
+  { __typename?: 'query_root' }
+  & { member: Array<(
+    { __typename?: 'member' }
+    & { team: (
+      { __typename?: 'team' }
+      & { members: Array<(
+        { __typename?: 'member' }
+        & { user: (
+          { __typename?: 'user' }
+          & Pick<User, 'id' | 'name' | 'avatar'>
+        ) }
+      )> }
+    ) }
   )> }
 );
 
@@ -1948,6 +2009,84 @@ export function useAddAttachmentMutation(baseOptions?: ApolloReactHooks.Mutation
 export type AddAttachmentMutationHookResult = ReturnType<typeof useAddAttachmentMutation>;
 export type AddAttachmentMutationResult = ApolloReactCommon.MutationResult<AddAttachmentMutation>;
 export type AddAttachmentMutationOptions = ApolloReactCommon.BaseMutationOptions<AddAttachmentMutation, AddAttachmentMutationVariables>;
+export const JoinTeamDocument = gql`
+    mutation JoinTeam($team_id: uuid!) {
+  insert_member(objects: {team_id: $team_id}) {
+    affected_rows
+  }
+}
+    `;
+export type JoinTeamMutationFn = ApolloReactCommon.MutationFunction<JoinTeamMutation, JoinTeamMutationVariables>;
+export type JoinTeamComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<JoinTeamMutation, JoinTeamMutationVariables>, 'mutation'>;
+
+    export const JoinTeamComponent = (props: JoinTeamComponentProps) => (
+      <ApolloReactComponents.Mutation<JoinTeamMutation, JoinTeamMutationVariables> mutation={JoinTeamDocument} {...props} />
+    );
+    
+
+/**
+ * __useJoinTeamMutation__
+ *
+ * To run a mutation, you first call `useJoinTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinTeamMutation, { data, loading, error }] = useJoinTeamMutation({
+ *   variables: {
+ *      team_id: // value for 'team_id'
+ *   },
+ * });
+ */
+export function useJoinTeamMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<JoinTeamMutation, JoinTeamMutationVariables>) {
+        return ApolloReactHooks.useMutation<JoinTeamMutation, JoinTeamMutationVariables>(JoinTeamDocument, baseOptions);
+      }
+export type JoinTeamMutationHookResult = ReturnType<typeof useJoinTeamMutation>;
+export type JoinTeamMutationResult = ApolloReactCommon.MutationResult<JoinTeamMutation>;
+export type JoinTeamMutationOptions = ApolloReactCommon.BaseMutationOptions<JoinTeamMutation, JoinTeamMutationVariables>;
+export const AddTeamDocument = gql`
+    mutation AddTeam($code: String!, $name: String!, $owner_id: String!) {
+  insert_team(objects: {code: $code, name: $name, owner_id: $owner_id}) {
+    affected_rows
+  }
+}
+    `;
+export type AddTeamMutationFn = ApolloReactCommon.MutationFunction<AddTeamMutation, AddTeamMutationVariables>;
+export type AddTeamComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddTeamMutation, AddTeamMutationVariables>, 'mutation'>;
+
+    export const AddTeamComponent = (props: AddTeamComponentProps) => (
+      <ApolloReactComponents.Mutation<AddTeamMutation, AddTeamMutationVariables> mutation={AddTeamDocument} {...props} />
+    );
+    
+
+/**
+ * __useAddTeamMutation__
+ *
+ * To run a mutation, you first call `useAddTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTeamMutation, { data, loading, error }] = useAddTeamMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *      name: // value for 'name'
+ *      owner_id: // value for 'owner_id'
+ *   },
+ * });
+ */
+export function useAddTeamMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddTeamMutation, AddTeamMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddTeamMutation, AddTeamMutationVariables>(AddTeamDocument, baseOptions);
+      }
+export type AddTeamMutationHookResult = ReturnType<typeof useAddTeamMutation>;
+export type AddTeamMutationResult = ApolloReactCommon.MutationResult<AddTeamMutation>;
+export type AddTeamMutationOptions = ApolloReactCommon.BaseMutationOptions<AddTeamMutation, AddTeamMutationVariables>;
 export const ChallengeDocument = gql`
     query Challenge($id: uuid!) {
   challenge_by_pk(id: $id) {
@@ -2166,3 +2305,88 @@ export function useChallengesByCategoryLazyQuery(baseOptions?: ApolloReactHooks.
 export type ChallengesByCategoryQueryHookResult = ReturnType<typeof useChallengesByCategoryQuery>;
 export type ChallengesByCategoryLazyQueryHookResult = ReturnType<typeof useChallengesByCategoryLazyQuery>;
 export type ChallengesByCategoryQueryResult = ApolloReactCommon.QueryResult<ChallengesByCategoryQuery, ChallengesByCategoryQueryVariables>;
+export const TeamByCodeDocument = gql`
+    query TeamByCode($code: String!) {
+  team(where: {code: {_eq: $code}}) {
+    id
+  }
+}
+    `;
+export type TeamByCodeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<TeamByCodeQuery, TeamByCodeQueryVariables>, 'query'> & ({ variables: TeamByCodeQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const TeamByCodeComponent = (props: TeamByCodeComponentProps) => (
+      <ApolloReactComponents.Query<TeamByCodeQuery, TeamByCodeQueryVariables> query={TeamByCodeDocument} {...props} />
+    );
+    
+
+/**
+ * __useTeamByCodeQuery__
+ *
+ * To run a query within a React component, call `useTeamByCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTeamByCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTeamByCodeQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useTeamByCodeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<TeamByCodeQuery, TeamByCodeQueryVariables>) {
+        return ApolloReactHooks.useQuery<TeamByCodeQuery, TeamByCodeQueryVariables>(TeamByCodeDocument, baseOptions);
+      }
+export function useTeamByCodeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TeamByCodeQuery, TeamByCodeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<TeamByCodeQuery, TeamByCodeQueryVariables>(TeamByCodeDocument, baseOptions);
+        }
+export type TeamByCodeQueryHookResult = ReturnType<typeof useTeamByCodeQuery>;
+export type TeamByCodeLazyQueryHookResult = ReturnType<typeof useTeamByCodeLazyQuery>;
+export type TeamByCodeQueryResult = ApolloReactCommon.QueryResult<TeamByCodeQuery, TeamByCodeQueryVariables>;
+export const MyTeamDocument = gql`
+    query MyTeam {
+  member {
+    team {
+      members {
+        user {
+          id
+          name
+          avatar
+        }
+      }
+    }
+  }
+}
+    `;
+export type MyTeamComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MyTeamQuery, MyTeamQueryVariables>, 'query'>;
+
+    export const MyTeamComponent = (props: MyTeamComponentProps) => (
+      <ApolloReactComponents.Query<MyTeamQuery, MyTeamQueryVariables> query={MyTeamDocument} {...props} />
+    );
+    
+
+/**
+ * __useMyTeamQuery__
+ *
+ * To run a query within a React component, call `useMyTeamQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyTeamQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyTeamQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyTeamQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyTeamQuery, MyTeamQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyTeamQuery, MyTeamQueryVariables>(MyTeamDocument, baseOptions);
+      }
+export function useMyTeamLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyTeamQuery, MyTeamQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyTeamQuery, MyTeamQueryVariables>(MyTeamDocument, baseOptions);
+        }
+export type MyTeamQueryHookResult = ReturnType<typeof useMyTeamQuery>;
+export type MyTeamLazyQueryHookResult = ReturnType<typeof useMyTeamLazyQuery>;
+export type MyTeamQueryResult = ApolloReactCommon.QueryResult<MyTeamQuery, MyTeamQueryVariables>;

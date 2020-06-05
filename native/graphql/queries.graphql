@@ -58,3 +58,23 @@ query ChallengesByCategory($category: String!, $user_id: String!) {
     }
   }
 }
+
+query TeamByCode($code: String!) {
+  team(where: { code: { _eq: $code } }) {
+    id
+  }
+}
+
+query MyTeam {
+  member {
+    team {
+      members {
+        user {
+          id
+          name
+          avatar
+        }
+      }
+    }
+  }
+}

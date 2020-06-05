@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { AuthSession } from 'expo'
 import { setItemAsync } from 'expo-secure-store'
 import * as Random from 'expo-random'
@@ -15,23 +16,30 @@ export const LoginScreen = () => {
   const [name, setName] = useState('')
   const [userId, setUserId] = useGlobalState('userId')
   const [token, setToken] = useGlobalState('token')
-  const handleResponse = useCallback(response => {
-    if (response.error) {
-      Alert.alert('Authentication error', response.error_description || 'something went wrong')
-      return
-    }
 
-    // Retrieve the JWT token and decode it
-    const jwtToken = response.id_token
-    const decoded = jwtDecode(jwtToken)
-    const userId = decoded.sub
-    const token = response.id_token
+  const navigation = useNavigation()
 
-    setName(decoded.name)
-    setItemAsync('token', token)
-    setToken(token)
-    setUserId(userId)
-  }, [])
+  const handleResponse = useCallback(
+    response => {
+      if (response.error) {
+        Alert.alert('Authentication error', response.error_description || 'something went wrong')
+        return
+      }
+
+      // Retrieve the JWT token and decode it
+      const jwtToken = response.id_token
+      const decoded = jwtDecode(jwtToken)
+      const userId = decoded.sub
+      const token = response.id_token
+
+      setName(decoded.name)
+      setToken(token)
+      setUserId(userId)
+      setItemAsync('token', token)
+      navigation.navigate('Tribe')
+    },
+    [navigation],
+  )
 
   const login = useCallback(async () => {
     // Retrieve the redirect URL, add this to the callback URL list

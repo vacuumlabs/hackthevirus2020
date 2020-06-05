@@ -26,3 +26,15 @@ mutation AddAttachment($assignment_id: uuid!, $attachment: String!) {
     affected_rows
   }
 }
+
+mutation JoinTeam($team_id: uuid!) {
+  insert_member(objects: { team_id: $team_id }) {
+    affected_rows
+  }
+}
+
+mutation AddTeam($code: String!, $name: String!, $owner_id: String!) {
+  insert_team(objects: { code: $code, name: $name, owner_id: $owner_id }) {
+    affected_rows
+  }
+}

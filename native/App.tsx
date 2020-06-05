@@ -19,10 +19,15 @@ const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState('isLoggedIn')
 
   const [userId, setUserId] = useGlobalState('userId')
   const [token, setToken] = useGlobalState('token')
   useEffect(() => {
+    if (token) {
+      return
+    }
+
     getItemAsync('token').then(token => {
       let decoded
       try {
@@ -40,6 +45,7 @@ export default function App() {
       } else {
         setToken(token)
         setUserId(decoded.sub)
+        setIsLoggedIn(true)
       }
     })
   })
