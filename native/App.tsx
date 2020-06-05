@@ -71,9 +71,14 @@ export default function App() {
     </ApplicationProvider>
   )
 
-  return token ? (
-    <ApolloProvider client={getClient(token)}>{applicationProvider}</ApolloProvider>
-  ) : (
-    applicationProvider
+  return (
+    <ApolloProvider client={getClient(token)}>
+      {/*
+      // @ts-ignore */}
+      <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
+        <StatusBar barStyle="dark-content" />
+        <RootNavigator />
+      </ApplicationProvider>
+    </ApolloProvider>
   )
 }
