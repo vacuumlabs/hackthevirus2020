@@ -1,19 +1,22 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Input, Button } from '@ui-kitten/components'
 import { useTeamByCodeQuery, useMyTeamQuery, useJoinTeamMutation } from '../../../graphqlSdk'
 import { useGlobalState } from 'state'
+import { useNavigation } from '@react-navigation/native'
+
 import { LoadingScreen } from './LoadingScreen'
 
-export const TribeScreen = () => {
+export const JoinTribeScreen = () => {
   const [isLoggedIn, setIsLoggedIn] = useGlobalState('isLoggedIn')
   const [code, setCode] = useState('')
   const [showNotFound, setShowNotFound] = useState(false)
 
   const { data: teamByCodeData } = useTeamByCodeQuery({ variables: { code } }) // TODO: debounce?
   const { data: myTeamData, loading } = useMyTeamQuery()
-  const [joinTeam, { error }] = useJoinTeamMutation()
-  console.log({ error, teamByCodeData })
+  const [joinTeam] = useJoinTeamMutation()
+
+  const navigator = useNavigation()
 
   const teamNotFound = !teamByCodeData || teamByCodeData.team.length === 0
 
@@ -25,19 +28,18 @@ export const TribeScreen = () => {
       }
 
       // TODO: check errors
-      const a = await joinTeam({
+      await joinTeam({
         variables: { team_id: teamByCodeData.team[0].id },
         refetchQueries: ['MyTeam'],
       })
-      console.log({ a, e: a.errors })
       setIsLoggedIn(true)
     }
     doJoin()
-  }, [code, teamByCodeData])
+  }, [code, teamNotFound, teamByCodeData])
 
   const onCreateNew = useCallback(() => {
-    // TODO: navigate to another screen
-  }, [])
+    navigator.navigate('CreateTribe')
+  }, [navigator])
 
   const onSkipJoining = useCallback(() => {
     setIsLoggedIn(true)

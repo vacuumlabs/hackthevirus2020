@@ -36,7 +36,7 @@ export const LoginScreen = () => {
       setToken(token)
       setUserId(userId)
       setItemAsync('token', token)
-      navigation.navigate('Tribe')
+      navigation.navigate('JoinTribe')
     },
     [navigation],
   )

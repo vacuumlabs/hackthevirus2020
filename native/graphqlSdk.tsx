@@ -1769,18 +1769,21 @@ export type JoinTeamMutation = (
   )> }
 );
 
-export type AddTeamMutationVariables = {
+export type CreateTeamMutationVariables = {
   code: Scalars['String'];
   name: Scalars['String'];
-  owner_id: Scalars['String'];
 };
 
 
-export type AddTeamMutation = (
+export type CreateTeamMutation = (
   { __typename?: 'mutation_root' }
   & { insert_team?: Maybe<(
     { __typename?: 'team_mutation_response' }
     & Pick<Team_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'team' }
+      & Pick<Team, 'id'>
+    )> }
   )> }
 );
 
@@ -2047,46 +2050,48 @@ export function useJoinTeamMutation(baseOptions?: ApolloReactHooks.MutationHookO
 export type JoinTeamMutationHookResult = ReturnType<typeof useJoinTeamMutation>;
 export type JoinTeamMutationResult = ApolloReactCommon.MutationResult<JoinTeamMutation>;
 export type JoinTeamMutationOptions = ApolloReactCommon.BaseMutationOptions<JoinTeamMutation, JoinTeamMutationVariables>;
-export const AddTeamDocument = gql`
-    mutation AddTeam($code: String!, $name: String!, $owner_id: String!) {
-  insert_team(objects: {code: $code, name: $name, owner_id: $owner_id}) {
+export const CreateTeamDocument = gql`
+    mutation CreateTeam($code: String!, $name: String!) {
+  insert_team(objects: {code: $code, name: $name}) {
     affected_rows
+    returning {
+      id
+    }
   }
 }
     `;
-export type AddTeamMutationFn = ApolloReactCommon.MutationFunction<AddTeamMutation, AddTeamMutationVariables>;
-export type AddTeamComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddTeamMutation, AddTeamMutationVariables>, 'mutation'>;
+export type CreateTeamMutationFn = ApolloReactCommon.MutationFunction<CreateTeamMutation, CreateTeamMutationVariables>;
+export type CreateTeamComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateTeamMutation, CreateTeamMutationVariables>, 'mutation'>;
 
-    export const AddTeamComponent = (props: AddTeamComponentProps) => (
-      <ApolloReactComponents.Mutation<AddTeamMutation, AddTeamMutationVariables> mutation={AddTeamDocument} {...props} />
+    export const CreateTeamComponent = (props: CreateTeamComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateTeamMutation, CreateTeamMutationVariables> mutation={CreateTeamDocument} {...props} />
     );
     
 
 /**
- * __useAddTeamMutation__
+ * __useCreateTeamMutation__
  *
- * To run a mutation, you first call `useAddTeamMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddTeamMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTeamMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addTeamMutation, { data, loading, error }] = useAddTeamMutation({
+ * const [createTeamMutation, { data, loading, error }] = useCreateTeamMutation({
  *   variables: {
  *      code: // value for 'code'
  *      name: // value for 'name'
- *      owner_id: // value for 'owner_id'
  *   },
  * });
  */
-export function useAddTeamMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddTeamMutation, AddTeamMutationVariables>) {
-        return ApolloReactHooks.useMutation<AddTeamMutation, AddTeamMutationVariables>(AddTeamDocument, baseOptions);
+export function useCreateTeamMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateTeamMutation, CreateTeamMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument, baseOptions);
       }
-export type AddTeamMutationHookResult = ReturnType<typeof useAddTeamMutation>;
-export type AddTeamMutationResult = ApolloReactCommon.MutationResult<AddTeamMutation>;
-export type AddTeamMutationOptions = ApolloReactCommon.BaseMutationOptions<AddTeamMutation, AddTeamMutationVariables>;
+export type CreateTeamMutationHookResult = ReturnType<typeof useCreateTeamMutation>;
+export type CreateTeamMutationResult = ApolloReactCommon.MutationResult<CreateTeamMutation>;
+export type CreateTeamMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateTeamMutation, CreateTeamMutationVariables>;
 export const ChallengeDocument = gql`
     query Challenge($id: uuid!) {
   challenge_by_pk(id: $id) {
