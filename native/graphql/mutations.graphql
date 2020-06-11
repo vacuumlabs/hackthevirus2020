@@ -33,8 +33,11 @@ mutation JoinTeam($team_id: uuid!) {
   }
 }
 
-mutation AddTeam($code: String!, $name: String!, $owner_id: String!) {
-  insert_team(objects: { code: $code, name: $name, owner_id: $owner_id }) {
+mutation CreateTeam($code: String!, $name: String!) {
+  insert_team(objects: { code: $code, name: $name }) {
     affected_rows
+    returning {
+      id
+    }
   }
 }

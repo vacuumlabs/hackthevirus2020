@@ -19,13 +19,15 @@ import { useTheme } from '@ui-kitten/components'
 
 import { useGlobalState } from '../../state'
 import { LoadingScreen } from '@components/screens/LoadingScreen'
-import { TribeScreen } from '@components/screens/TribeScreen'
+import { JoinTribeScreen } from '@components/screens/JoinTribeScreen'
 import { ContactsScreen } from '@components/screens/ContactsScreen'
+import { CreateTribeScreen } from '@components/screens/CreateTribeScreen'
 
 export type RootNavigatorParamList = {
   Loading: undefined
   Login: undefined
-  Tribe: undefined
+  JoinTribe: undefined
+  CreateTribe: undefined
   Root: undefined
   CompleteChallenge: { assignmentId: string }
   TakePhoto: { assignmentId: string }
@@ -102,7 +104,8 @@ export const RootNavigator: React.FC = () => {
         ) : !isLoggedIn ? (
           <>
             <RootStack.Screen name="Login" component={LoginScreen} />
-            <RootStack.Screen name="Tribe" component={TribeScreen} />
+            <RootStack.Screen name="JoinTribe" component={JoinTribeScreen} />
+            <RootStack.Screen name="CreateTribe" component={CreateTribeScreen} />
           </>
         ) : (
           <>
