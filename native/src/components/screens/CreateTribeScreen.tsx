@@ -2,10 +2,9 @@ import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Input, Button } from '@ui-kitten/components'
 import { useCreateTeamMutation, useJoinTeamMutation, useTeamByCodeQuery } from '../../../graphqlSdk'
-import { useGlobalState } from 'state'
+import { useNavigation } from '@react-navigation/native'
 
 export const CreateTribeScreen = () => {
-  const [isLoggedIn, setIsLoggedIn] = useGlobalState('isLoggedIn')
   const [code, setCode] = useState('')
   const [showUsed, setShowUsed] = useState(false)
 
@@ -14,6 +13,8 @@ export const CreateTribeScreen = () => {
   const [joinTeam] = useJoinTeamMutation()
 
   const usedTeamCode = teamByCodeData && teamByCodeData.team.length > 0
+
+  const navigation = useNavigation()
 
   const onCreateNew = useCallback(() => {
     async function doCreate() {
@@ -33,10 +34,10 @@ export const CreateTribeScreen = () => {
         refetchQueries: ['MyTeam'],
       })
 
-      setIsLoggedIn(true)
+      navigation.navigate('Root')
     }
     doCreate()
-  }, [code, usedTeamCode])
+  }, [code, usedTeamCode, navigation])
 
   return (
     <View style={styles.container}>
