@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
 
 import {
   CategoryScreen,
@@ -22,6 +20,7 @@ import { LoadingScreen } from '@components/screens/LoadingScreen'
 import { JoinTribeScreen } from '@components/screens/JoinTribeScreen'
 import { ContactsScreen } from '@components/screens/ContactsScreen'
 import { CreateTribeScreen } from '@components/screens/CreateTribeScreen'
+import { SettingsScreen } from '@components/screens/SettingsScreen'
 
 export type RootNavigatorParamList = {
   Loading: undefined
@@ -81,7 +80,7 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen name="Contacts" component={ContactsScreen} />
       <Tab.Screen name="Challenges" component={ChallengeNavigator} />
-      <Tab.Screen name="Settings" component={View} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   )
 }

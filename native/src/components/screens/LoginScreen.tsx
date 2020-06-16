@@ -42,7 +42,6 @@ export const LoginScreen = () => {
         setToken(token)
         setUserId(decoded.sub)
         navigation.navigate('Root')
-        //setIsLoggedIn(true)
       }
     })
   }, [navigation])
