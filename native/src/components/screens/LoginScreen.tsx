@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { AuthSession } from 'expo'
-import { setItemAsync } from 'expo-secure-store'
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store'
 import * as Random from 'expo-random'
 import jwtDecode from 'jwt-decode'
 import { useGlobalState } from '../../state'
@@ -18,6 +18,33 @@ export const LoginScreen = () => {
   const [token, setToken] = useGlobalState('token')
 
   const navigation = useNavigation()
+
+  useEffect(() => {
+    if (token) {
+      return
+    }
+
+    getItemAsync('token').then(token => {
+      let decoded
+      try {
+        decoded = jwtDecode(token)
+      } catch {
+        deleteItemAsync('token')
+        deleteItemAsync('userId')
+        return
+      }
+
+      if (Date.now() > decoded.exp * 1000) {
+        // token is expired
+        deleteItemAsync('token')
+        deleteItemAsync('userId')
+      } else {
+        setToken(token)
+        setUserId(decoded.sub)
+        navigation.navigate('Root')
+      }
+    })
+  }, [navigation])
 
   const handleResponse = useCallback(
     response => {
@@ -36,7 +63,7 @@ export const LoginScreen = () => {
       setToken(token)
       setUserId(userId)
       setItemAsync('token', token)
-      navigation.navigate('JoinTribe')
+      navigation.navigate('JoinTribe', { onboarding: true })
     },
     [navigation],
   )

@@ -2,8 +2,6 @@ import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'react-native'
-import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
-import jwtDecode from 'jwt-decode'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 import { RootNavigator } from '@components/navigation/RootNavigator'
@@ -19,36 +17,7 @@ const theme = { ...lightTheme, ...appTheme }
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false)
-  const [isLoggedIn, setIsLoggedIn] = useGlobalState('isLoggedIn')
-
-  const [userId, setUserId] = useGlobalState('userId')
   const [token, setToken] = useGlobalState('token')
-  useEffect(() => {
-    if (token) {
-      return
-    }
-
-    getItemAsync('token').then(token => {
-      let decoded
-      try {
-        decoded = jwtDecode(token)
-      } catch {
-        deleteItemAsync('token')
-        deleteItemAsync('userId')
-        return
-      }
-
-      if (Date.now() > decoded.exp * 1000) {
-        // token is expired
-        deleteItemAsync('token')
-        deleteItemAsync('userId')
-      } else {
-        setToken(token)
-        setUserId(decoded.sub)
-        setIsLoggedIn(true)
-      }
-    })
-  })
 
   if (!fontsLoaded) {
     return (
@@ -68,14 +37,6 @@ export default function App() {
       />
     )
   }
-
-  const applicationProvider = (
-    // @ts-ignore
-    <ApplicationProvider mapping={mapping} theme={theme} customMapping={customMapping}>
-      <StatusBar barStyle="dark-content" />
-      <RootNavigator />
-    </ApplicationProvider>
-  )
 
   return (
     <ApolloProvider client={getClient(token)}>

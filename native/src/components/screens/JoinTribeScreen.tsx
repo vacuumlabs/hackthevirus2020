@@ -2,13 +2,16 @@ import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Input, Button } from '@ui-kitten/components'
 import { useTeamByCodeQuery, useMyTeamQuery, useJoinTeamMutation } from '../../../graphqlSdk'
-import { useGlobalState } from 'state'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, RouteProp } from '@react-navigation/native'
 
 import { LoadingScreen } from './LoadingScreen'
+import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
 
-export const JoinTribeScreen = () => {
-  const [isLoggedIn, setIsLoggedIn] = useGlobalState('isLoggedIn')
+type Props = {
+  onboarding: RouteProp<RootNavigatorParamList, 'JoinTribe'>
+}
+
+export const JoinTribeScreen: React.FC<Props> = ({ onboarding }) => {
   const [code, setCode] = useState('')
   const [showNotFound, setShowNotFound] = useState(false)
 
@@ -16,7 +19,7 @@ export const JoinTribeScreen = () => {
   const { data: myTeamData, loading } = useMyTeamQuery()
   const [joinTeam] = useJoinTeamMutation()
 
-  const navigator = useNavigation()
+  const navigation = useNavigation()
 
   const teamNotFound = !teamByCodeData || teamByCodeData.team.length === 0
 
@@ -32,26 +35,26 @@ export const JoinTribeScreen = () => {
         variables: { team_id: teamByCodeData.team[0].id },
         refetchQueries: ['MyTeam'],
       })
-      setIsLoggedIn(true)
+
+      navigation.navigate('Root')
     }
     doJoin()
-  }, [code, teamNotFound, teamByCodeData])
+  }, [code, teamNotFound, teamByCodeData, navigation])
 
   const onCreateNew = useCallback(() => {
-    navigator.navigate('CreateTribe')
-  }, [navigator])
+    navigation.navigate('CreateTribe', { onboarding })
+  }, [navigation])
 
   const onSkipJoining = useCallback(() => {
-    setIsLoggedIn(true)
-  }, [])
+    navigation.navigate('Root')
+  }, [navigation])
 
   if (loading) {
     return <LoadingScreen />
   }
 
-  if (myTeamData.member.length && !isLoggedIn) {
-    setIsLoggedIn(true)
-    return <LoadingScreen />
+  if (myTeamData.member.length) {
+    navigation.navigate('Root')
   }
 
   return (
@@ -74,12 +77,16 @@ export const JoinTribeScreen = () => {
       <Button style={styles.button} onPress={onJoin}>
         Log into a Tribe
       </Button>
-      <Button style={styles.button} onPress={onCreateNew}>
-        Create a new Tribe
-      </Button>
-      <Button style={styles.button} onPress={onSkipJoining}>
-        Skip for now
-      </Button>
+      {onboarding && (
+        <>
+          <Button style={styles.button} onPress={onCreateNew}>
+            Create a new Tribe
+          </Button>
+          <Button style={styles.button} onPress={onSkipJoining}>
+            Skip for now
+          </Button>
+        </>
+      )}
     </View>
   )
 }

@@ -33,6 +33,12 @@ mutation JoinTeam($team_id: uuid!) {
   }
 }
 
+mutation LeaveTeam($team_id: uuid!) {
+  delete_member(where: { team_id: { _eq: $team_id } }) {
+    affected_rows
+  }
+}
+
 mutation CreateTeam($code: String!, $name: String!) {
   insert_team(objects: { code: $code, name: $name }) {
     affected_rows

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import { getItemAsync, deleteItemAsync } from 'expo-secure-store'
 
 import {
   CategoryScreen,
@@ -22,12 +20,13 @@ import { LoadingScreen } from '@components/screens/LoadingScreen'
 import { JoinTribeScreen } from '@components/screens/JoinTribeScreen'
 import { ContactsScreen } from '@components/screens/ContactsScreen'
 import { CreateTribeScreen } from '@components/screens/CreateTribeScreen'
+import { SettingsScreen } from '@components/screens/SettingsScreen'
 
 export type RootNavigatorParamList = {
   Loading: undefined
   Login: undefined
-  JoinTribe: undefined
-  CreateTribe: undefined
+  JoinTribe: { onboarding: boolean }
+  CreateTribe: { onboarding: boolean }
   Root: undefined
   CompleteChallenge: { assignmentId: string }
   TakePhoto: { assignmentId: string }
@@ -81,7 +80,7 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen name="Contacts" component={ContactsScreen} />
       <Tab.Screen name="Challenges" component={ChallengeNavigator} />
-      <Tab.Screen name="Settings" component={View} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   )
 }
@@ -90,7 +89,6 @@ export const RootNavigator: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [userId, setUserId] = useGlobalState('userId')
   const [token, setToken] = useGlobalState('token')
-  const [isLoggedIn] = useGlobalState('isLoggedIn')
 
   if ((userId || !token) && loading) {
     setLoading(false)
@@ -98,23 +96,15 @@ export const RootNavigator: React.FC = () => {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Root" headerMode="none">
-        {loading ? (
-          <RootStack.Screen name="Loading" component={LoadingScreen} />
-        ) : !isLoggedIn ? (
-          <>
-            <RootStack.Screen name="Login" component={LoginScreen} />
-            <RootStack.Screen name="JoinTribe" component={JoinTribeScreen} />
-            <RootStack.Screen name="CreateTribe" component={CreateTribeScreen} />
-          </>
-        ) : (
-          <>
-            <RootStack.Screen name="Root" component={TabNavigator} />
-            {/* NOTE: Showing screens above tabs this way. Maybe there is better way in react-navigationn5 but don't have time to find out. */}
-            <RootStack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
-            <RootStack.Screen name="TakePhoto" component={TakePhotoScreen} />
-          </>
-        )}
+      <RootStack.Navigator initialRouteName="Login" headerMode="none">
+        <RootStack.Screen name="Loading" component={LoadingScreen} />
+        <RootStack.Screen name="Login" component={LoginScreen} />
+        <RootStack.Screen name="JoinTribe" component={JoinTribeScreen} />
+        <RootStack.Screen name="CreateTribe" component={CreateTribeScreen} />
+        <RootStack.Screen name="Root" component={TabNavigator} />
+        {/* NOTE: Showing screens above tabs this way. Maybe there is better way in react-navigationn5 but don't have time to find out. */}
+        <RootStack.Screen name="CompleteChallenge" component={CompleteChallengeScreen} />
+        <RootStack.Screen name="TakePhoto" component={TakePhotoScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   )
