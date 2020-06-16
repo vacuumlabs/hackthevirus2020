@@ -25,8 +25,8 @@ import { SettingsScreen } from '@components/screens/SettingsScreen'
 export type RootNavigatorParamList = {
   Loading: undefined
   Login: undefined
-  JoinTribe: undefined
-  CreateTribe: undefined
+  JoinTribe: { onboarding: boolean }
+  CreateTribe: { onboarding: boolean }
   Root: undefined
   CompleteChallenge: { assignmentId: string }
   TakePhoto: { assignmentId: string }

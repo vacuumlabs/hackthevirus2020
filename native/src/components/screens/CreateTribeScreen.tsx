@@ -2,9 +2,14 @@ import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Input, Button } from '@ui-kitten/components'
 import { useCreateTeamMutation, useJoinTeamMutation, useTeamByCodeQuery } from '../../../graphqlSdk'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, RouteProp } from '@react-navigation/native'
+import { RootNavigatorParamList } from '@components/navigation/RootNavigator'
 
-export const CreateTribeScreen = () => {
+type Props = {
+  onboarding: RouteProp<RootNavigatorParamList, 'CreateTribe'>
+}
+
+export const CreateTribeScreen: React.FC<Props> = ({ onboarding }) => {
   const [code, setCode] = useState('')
   const [showUsed, setShowUsed] = useState(false)
 
