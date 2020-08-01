@@ -1,11 +1,12 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { Alert, StyleSheet, View, Image } from 'react-native'
-import { useGlobalState } from '../../state'
+import React, { useCallback } from 'react'
+import { StyleSheet, View, Image } from 'react-native'
 
-import { Button, Text } from '@ui-kitten/components'
+import { Button, Text, Layout, List, ListItem, Avatar } from '@ui-kitten/components'
 import { useMyTeamQuery } from '../../../graphqlSdk'
 import { LoadingScreen } from './LoadingScreen'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
+import { spacing } from '@components/ui/constants'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 // TODO: improve UI
 const Contact = ({ user }) => {
@@ -37,10 +38,13 @@ export const ContactsScreen = () => {
     navigation.navigate('CreateTribe', { onboarding: false })
   }, [navigation])
 
+  const theme = useTheme()
+
   if (loading) {
     return <LoadingScreen />
   }
 
+  // TODO: restyle this branch
   if (data.member.length === 0) {
     return (
       <View>
@@ -57,12 +61,76 @@ export const ContactsScreen = () => {
 
   const users = data.member[0].team.members.map(({ user }) => user)
 
+  const renderItem = ({ item }) => (
+    <ListItem
+      title={props => (
+        <Text {...props} style={[props.style, { fontSize: 18 }]}>
+          {item.name}
+        </Text>
+      )}
+      accessoryLeft={() => <Avatar source={{ uri: item.avatar }} />}
+    />
+  )
+
   return (
-    <View>
-      {users.map(user => (
-        <Contact key={user.id} user={user} />
-      ))}
-    </View>
+    <Layout style={{ flex: 1 }} level="1">
+      <Layout level="3">
+        <Text
+          category="h3"
+          style={{
+            fontFamily: 'AbrilFatface-Regular',
+            marginLeft: spacing[4],
+            marginBottom: spacing[4],
+            marginTop: spacing[6],
+          }}
+        >
+          Your Bear Tribe
+        </Text>
+        <List data={users} renderItem={renderItem}></List>
+      </Layout>
+      <Layout level="1">
+        <Text
+          category="h5"
+          style={{
+            fontFamily: 'OpenSans-Bold',
+            marginLeft: spacing[4],
+            marginBottom: spacing[4],
+            marginTop: spacing[5],
+          }}
+        >
+          Invite people to your Tribe
+        </Text>
+        <Text
+          style={{
+            fontFamily: 'OpenSans-Bold',
+            marginLeft: spacing[4],
+            marginBottom: spacing[4],
+            marginTop: spacing[3],
+          }}
+        >
+          Share URL:
+        </Text>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text
+            style={{
+              flex: 1,
+              marginLeft: spacing[4],
+              marginBottom: spacing[4],
+              marginTop: spacing[0],
+            }}
+          >
+            url
+          </Text>
+          <MaterialCommunityIcons
+            style={{ flex: 0, alignSelf: 'flex-end' }}
+            name="content-copy"
+            size={20}
+            color={theme['color-primary-500']}
+          />
+        </View>
+      </Layout>
+    </Layout>
   )
 }
 

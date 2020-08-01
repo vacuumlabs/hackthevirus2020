@@ -19,7 +19,7 @@
     "@react-navigation/native": "^5.1.4",
     "@react-navigation/stack": "^5.2.9",
     "@types/graphql": "^14.5.0",
-    "@ui-kitten/components": "^4.4.1",
+    "@ui-kitten/components": "^5.0.0",
     "apollo-boost": "^0.4.7",
     "appcenter": "^3.0.0",
     "appcenter-analytics": "^3.0.0",
