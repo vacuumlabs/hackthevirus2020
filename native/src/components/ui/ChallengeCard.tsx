@@ -1,7 +1,6 @@
 import { getChallengeColor } from 'helpers'
 import React, { useCallback } from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
-import { useGlobalState } from 'state'
 
 import { useNavigation } from '@react-navigation/native'
 import { Avatar, Card, Text } from '@ui-kitten/components'
@@ -25,7 +24,6 @@ const ChallengeCardComponent: React.FC<Props> = ({
   style,
 }) => {
   const navigation = useNavigation()
-  const [userId] = useGlobalState('userId')
 
   const navigateToChallenge = useCallback(() => {
     navigation.navigate('ChallengeDetail', { id })
